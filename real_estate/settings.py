@@ -159,4 +159,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-
+ALLOWED_HOSTS = ['realestate-a29p.onrender.com', 'localhost', '127.0.0.1']
