@@ -1,0 +1,191 @@
+/* Reset */
+* {
+  
+  box-sizing: border-box;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f5f7fa;
+  color: #333;
+  
+}
+
+/* Header */
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+header h1 {
+  font-size: 2.2rem;
+  color: #24315f;
+}
+header p {
+  color: #555;
+  margin-top: 5px;
+  font-size: 1rem;
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-bottom: 25px;
+  justify-content: center;
+}
+
+.filter-bar input,
+.filter-bar select,
+.filter-bar button {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.filter-bar button {
+  background: #24315f;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.filter-bar button:hover {
+  background: #1a2345;
+}
+
+@media (max-width: 600px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filter-bar input,
+  .filter-bar select,
+  .filter-bar button {
+    width: 100%;
+  }
+}
+
+/* --- Bootstrap Grid will handle responsiveness ---
+   No need for grid-template-columns on properties-container
+*/
+.properties-container {
+  margin-top: 20px;
+}
+
+/* Property Card */
+.property-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+.property-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.property-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.property-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Info Box */
+.property-info {
+  padding: 16px;
+}
+.property-info h2 {
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+  color: #24315f;
+}
+.property-info .location {
+  color: #777;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+.property-info .location i {
+  margin-right: 5px;
+  color: #ff6b6b;
+}
+.property-info .price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #008000; /* Indian Rupee in green */
+  margin-bottom: 12px;
+}
+.property-info button {
+  background: #24315f;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.property-info button:hover {
+  background: #1a2345;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1.6rem;
+  }
+  .property-info h2 {
+    font-size: 1rem;
+  }
+  .property-info .price {
+    font-size: 1rem;
+  }
+}
+
+/* === Theme Colors === */
+body {
+  background: #f5f7fa; /* Soft background */
+  color: #333;
+}
+
+header h1 {
+  color: #24315f; /* Primary */
+}
+
+.property-info h2 {
+  color: #24315f; /* Primary */
+}
+
+.property-info .location i {
+  color: #ff6b6b; /* Secondary (icon) */
+}
+
+.property-info .price {
+  color: #27ae60; /* Green for ₹ */
+}
+
+.property-info button {
+  background: #24315f;
+  color: #fff;
+  transition: background 0.3s ease;
+}
+.property-info button:hover {
+  background: #1a2345;
+}
+
+/* === Card Hover Accent === */
+.property-card:hover {
+  box-shadow: 0 8px 20px rgba(36, 49, 95, 0.25); /* navy shadow */
+}
+
+

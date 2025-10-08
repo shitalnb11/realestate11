@@ -1,0 +1,294 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real Estate</title>
+
+    <!-- Static CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}" />
+
+    <!-- Bootstrap & Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- ✅ Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'img/COMPANY 1.PNG' %}" alt="Delegent Properties" height="40" />
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'properties' %}">Properties</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login/Register</a></li> -->
+                    {% if user.is_authenticated %}
+  <form action="{% url 'logout' %}" method="post" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-link nav-link" style="color:white; text-decoration:none;">Logout</button>
+  </form>
+{% else %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'login' %}">Login/Register</a>
+  </li>
+{% endif %}
+                </ul>
+                <p style="color:white; margin-top:15px; margin-left:20px; color:rgb(207,198,198);">
+        {% if user.is_authenticated %}
+             User: {{ user.username }}
+        {% else %}
+             User: Not logged in
+        {% endif %}
+    </p>
+
+            </div>
+           
+        </div>
+    </nav>
+
+    <!-- ✅ Hero Section -->
+    <section class="hero">
+        <video autoplay muted loop class="hero-video">
+            <source src="{% static 'img/AdobeStock_1404030948_Video_4K_Preview.mov' %}" type="video/mp4" />
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hp-hero-content">
+            <h1>Find Your Dream Home</h1>
+            <p>Discover properties, apartments, and land at the best prices</p>
+           
+        </div>
+    </section>
+
+   {% load static %}
+
+
+
+<!-- ✅ Featured Properties -->
+{% load static %}
+
+<section class="hp-carousel-section">
+  <h2>Featured Properties</h2>
+  <div class="carousel-container">
+
+    <button class="carousel-btn left" onclick="moveCarousel('left')">&#9664;</button>
+
+    <div class="carousel-wrapper">
+      <div id="carousel" class="carousel">
+
+        <div class="card">
+          <img src="{% static 'img/2.jpg' %}" alt="Modern Apartment" />
+          <div class="card-description">
+            <h4>Modern Apartment</h4>
+            <p>Pune, Maharashtra</p>
+            <p>₹ 80 Lakh</p>
+            <div class="rating">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+          </div>
+        </div>
+
+        <div class="card">
+             <img src="{% static 'img/2.png' %}" alt="Modern Apartment" />
+          <!-- <img src="{% static 'img/bengluru.png' %}" alt="Luxury Villa" /> -->
+          <div class="card-description">
+            <h4>Luxury Villa</h4>
+            <p>Bangalore, Karnataka</p>
+            <p>₹ 2.5 Crore</p>
+            <div class="rating">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="{% static 'img/hp.jpg' %}" alt="Apartment Interior" />
+          <div class="card-description">
+            <h4>Apartment Interior</h4>
+            <p>Mumbai, Maharashtra</p>
+            <p>₹ 1.2 Crore</p>
+            <div class="rating">&#9733;&#9733;&#9733;&#9734;&#9734;</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="{% static 'img/Goa.png' %}" alt="Villa Interior" />
+          <div class="card-description">
+            <h4>Villa Interior</h4>
+            <p>Pune, Maharashtra</p>
+            <p>₹ 3 Crore</p>
+            <div class="rating">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+          </div>
+        </div>
+
+        <div class="card">
+                <img src="https://cdn-icons-png.flaticon.com/512/1076/1076752.png" alt="Apartments Icon" width="50" />
+          <div class="card-description">
+            <h4>Land Plot</h4>
+            <p>Goa</p>
+            <p>₹ 1.5 Crore</p>
+            <div class="rating">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <button class="carousel-btn right" onclick="moveCarousel('right')">&#9654;</button>
+
+  </div>
+</section>
+
+ 
+
+    <!-- ✅ Categories -->
+    <section class="hp-categories">
+        <h2>What we Provide</h2>
+        <div class="category-cards">
+            <div class="category-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/1076/1076752.png" alt="Apartments Icon" width="50" />
+                <p>Apartments</p>
+            </div>
+            <div class="category-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/69/69524.png" alt="Villas Icon" width="50" />
+                <p>Villas</p>
+            </div>
+            <div class="category-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/68/68939.png" alt="Plots Icon" width="50" />
+                <!-- <p>Plots</p>
+            </div>
+            <div class="category-card"> <img src="https://cdn-icons-png.flaticon.com/512/2910/2910768.png"
+                    alt="Luxury Homes Icon" width="50" /> -->
+                <p>Luxury Homes</p>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- ✅ Testimonials -->
+    <section class="testimonials">
+        <h2>What Our Clients Say</h2>
+        <div class="testimonial-carousel">
+            <div class="testimonial-card">
+                <img src="/static/img/cheerful-indian-businessman-smiling-closeup-portrait-jobs-career-campaign.jpg"
+                    alt="Rajesh K." width="50" height="75" />
+                <p>"Amazing experience, found my dream apartment quickly!"</p>
+                <h4>— Rajesh K.</h4>
+            </div>
+            <div class="testimonial-card">
+                <img src="/static/img/young-smiling-.jpg"
+                    alt="Anjali S." width="50" height="75" />
+                <p>"Professional service, highly recommended!"</p>
+                <h4>— Anjali S.</h4>
+            </div>
+            <div class="testimonial-card">
+                <img src="/static/img/portrait-indian-.jpg" alt="Neha M." width="50" height="75" />
+                <p>"Great support throughout the process, truly grateful!"</p>
+                <h4>— Neha M.</h4>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- ✅ About Us -->
+   <section class="about-us">
+        <h2>About Us</h2>
+        <div class="about-us-cards">
+            <!-- Card 1 -->
+            <div class="about-card" style="background-image: url('../static/img/vision.jpg')">
+                <div class="about-content">
+                    <img src="static/img/what_our_client_say.jpg" alt="Our Vision" />
+                    <h3>Our Vision</h3>
+                    <p>
+                        To redefine real estate experiences by providing unmatched service
+                        and innovative solutions.
+                    </p>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="about-card" style="
+            background-image: url('https://agiindia.com/wp-content/uploads/2020/12/Construction_in_Toronto_May_2012-e1484217895318.jpg');
+          ">
+                <div class="about-content">
+                    <img src="/static/img/image.png" alt="Our Mission" />
+                    <h3>Our Mission</h3>
+                    <p>
+                        Connecting people with their dream properties with transparency,
+                        integrity, and passion.
+                    </p>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="about-card" style="
+            background-image: url('https://www.shutterstock.com/image-photo/indian-asian-young-business-professionals-600nw-2474120445.jpg');
+          ">
+                <div class="about-content">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Our Team" />
+                    <h3>Our Team</h3>
+                    <p>
+                        A dynamic group of real estate professionals committed to your
+                        success and satisfaction.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- ✅ Footer -->
+   <footer class="footer bg-dark text-white pt-5 pb-3 mt-5">
+        <div class="footer-wrapper">
+            <div class="container">
+                <div class="row">
+                    <!-- Column 1 -->
+                    <div class="col-md-4 mb-3">
+                        <img src="/static/img/COMPANY 1.PNG" alt="Delegent Properties" height="40" />
+                        <p>
+                            Your trusted platform for buying, selling, and renting
+                            properties with ease.
+                        </p>
+                    </div>
+
+                    <!-- Column 2: Quick Links -->
+                    <div class="col-md-4 mb-3">
+                        <h5 class="fw-bold">Quick Links</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="{% url 'home' %}" class="footer-link">Home</a></li>
+    <li><a href="{% url 'properties' %}" class="footer-link">Properties</a></li>
+    <li><a href="{% url 'contact' %}" class="footer-link">Contact</a></li>
+    <li><a href="{% url 'login' %}" class="footer-link">Login</a></li>
+    <li><a href="{% url 'register' %}" class="footer-link">Register</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 3: Social -->
+                    <div class="col-md-4 mb-3">
+                        <h5 class="fw-bold">Follow Us</h5>
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="bg-light" />
+                <p class="text-center mb-0">Copyright @ Kavya Infoweb Pvt Ltd</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/nav.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

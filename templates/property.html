@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Property Details</title>
+  <link rel="stylesheet" href="{% static 'css/property.css' %}" />
+</head>
+
+<body>
+  <div class="property-container">
+    <div class="property-header">
+      <h1 id="propertyName">Loading...</h1>
+      <p id="propertyLocation"></p>
+    </div>
+
+    <div class="property-info">
+      <p><strong>Builder:</strong> <span id="propertyBuilder"></span></p>
+      <p><strong>Builder contact:</strong> <span id="propertyBuilderContact"></span></p>
+      <p><strong>Area:</strong> <span id="propertyArea"></span></p>
+      <p><strong>Description:</strong> <span id="propertyDesc"></span></p>
+      <p><strong>Rating:</strong> <span id="propertyRate"></span></p>
+    </div>
+
+    <div class="property-photos" id="propertyPhotos"></div>
+
+    <div class="map-container">
+      <iframe id="propertyMap" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <script src="{% static 'js/property.js' %}"></script>
+</body>
+</html>

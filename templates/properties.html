@@ -1,0 +1,1117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Properties | Delegent Properties</title>
+
+  <!-- ✅ Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- ✅ Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <!-- ✅ Custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/properties.css' %}">
+</head>
+
+<body>
+  <!-- ✅ Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<div class="container-fluid">
+<a class="navbar-brand" href="{% url 'home' %}">
+<img src="{% static 'img/COMPANY 1.PNG' %}" alt="Delegent Properties" height="40">
+</a>
+ 
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+<span class="navbar-toggler-icon"></span>
+</button>
+ 
+    <div class="collapse navbar-collapse" id="navbarNav">
+<ul class="navbar-nav ms-auto">
+<li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="{% url 'properties' %}">Properties</a></li>
+<li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+ 
+        {% if user.is_authenticated %}
+  <form action="{% url 'logout' %}" method="post" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-link nav-link" style="color:white; text-decoration:none;">Logout</button>
+  </form>
+{% else %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'login' %}">Login/Register</a>
+  </li>
+{% endif %}
+
+</ul>
+<p style="color:white; margin-top:15px; margin-left:20px; color:rgb(207,198,198);">
+        {% if user.is_authenticated %}
+             User: {{ user.username }}
+        {% else %}
+             User: Not logged in
+        {% endif %}
+    </p>
+
+</div>
+
+</div>
+</nav>
+  <!-- ✅ Header -->
+  <header class="text-center py-4">
+    <h1>Properties for Sale in Pune</h1>
+    <p>Explore Apartments, Villas, 3BHK Homes, and more across Pune</p>
+  </header>
+
+  <!-- 🔍 Filter/Search Bar -->
+  <section class="filter-bar text-center mb-4">
+    <input type="text" id="searchInput" placeholder="Search by property or area..." autocomplete="off">
+
+    <select id="priceFilter">
+      <option value="">Any Price</option>
+      <option value="5000000">Below ₹50 Lakhs</option>
+      <option value="10000000">₹50 Lakhs - ₹1 Cr</option>
+      <option value="20000000">₹1 Cr - ₹2 Cr</option>
+      <option value="30000000">Above ₹2 Cr</option>
+    </select>
+
+    <select id="typeFilter">
+      <option value="">All Types</option>
+      <option value="Apartment">Apartment</option>
+      <option value="Villa">Villa</option>
+      <option value="Penthouse">Penthouse</option>
+      <option value="Row House">Row House</option>
+      <option value="Studio">Studio</option>
+      <option value="2 BHK">2 BHK</option>
+      <option value="3 BHK">3 BHK</option>
+    </select>
+
+    <button class="btn btn-primary" onclick="filterProperties()">Apply Filters</button>
+  </section>
+
+  <!-- ✅ Properties Grid -->
+  <section class="properties-container">
+    <div class="container my-4">
+      <div class="row g-4">
+
+        <!-- 🏡 Example Property Card -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card">
+            <img src="{% static 'img/pt.jpg' %}" alt="Penthouse in Koregaon Park">
+            <div class="property-info">
+              <h2>Luxury Penthouse in Koregaon Park</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Koregaon+Park,Pune" target="_blank">
+                  Koregaon Park, Pune
+                </a>
+              </p>
+              <p class="price">₹3,50,00,000</p>
+              <p class="details">5 BHK • 4200 sq.ft • Fully Furnished</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property1Modal">
+                View Details
+              </button>
+            </div>
+          </div>
+        </div>
+
+         <!-- Apartment -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card">
+            <img src="{% static 'img/2.jpg' %}" alt="Apartment in Hinjewadi">
+           
+            <div class="property-info">
+              <h2>2 BHK Apartment in Hinjewadi</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Hinjewadi,Pune" target="_blank">Hinjewadi, Pune</a>
+              </p>
+              <p class="price">₹75,00,000</p>
+              <p class="details">2 BHK • 950 sq.ft • Near IT Park</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property2Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Hadapsar Apartment -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card">
+            <img src="{% static 'img/3.jpg' %}" alt="2 BHK Apartment in Hadapsar">
+            
+            <div class="property-info">
+              <h2>2 BHK Apartment in Hadapsar</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Hadapsar,Pune" target="_blank">Hadapsar, Pune</a>
+              </p>
+              <p class="price">₹65,00,000</p>
+              <p class="details">2 BHK • 900 sq.ft • Near Amanora Mall</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property3Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wakad 3 BHK -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card">
+             <img src="{% static 'img/w.jpg' %}" alt="2 BHK Apartment in Hadapsar">
+            <!-- <img src="../static/Assets/images/w.jpg" alt="3 BHK Flat in Wakad"> -->
+            <div class="property-info">
+              <h2>3 BHK Flat in Wakad</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Wakad,Pune" target="_blank">Wakad, Pune</a>
+              </p>
+              <p class="price">₹95,00,000</p>
+              <p class="details">3 BHK • 1400 sq.ft • Close to Mumbai-Pune Expressway</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property4Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Shivaji Nagar Office Space -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card">
+             <img src="{% static 'img/co.avif' %}" alt="2 BHK Apartment in Hadapsar">
+
+            <!-- <img src="../static/Assets/images/co.avif" alt="Commercial Office in Shivaji Nagar"> -->
+            <div class="property-info">
+              <h2>Commercial Office in Shivaji Nagar</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Shivajinagar,Pune" target="_blank">Shivajinagar, Pune</a>
+              </p>
+              <p class="price">₹5,20,00,000</p>
+              <p class="details">1200 sq.ft • Fully Furnished Office • Prime Location</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property5Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Magarpatta City Luxury Flat -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card">
+            <img src="{% static 'img/l.jpg' %}" alt="2 BHK Apartment in Hadapsar">
+
+ 
+            <!-- <img src="../static/Assets/images/l.jpg" alt="Luxury Apartment in Magarpatta City"> -->
+            <div class="property-info">
+              <h2>Luxury Apartment in Magarpatta City</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Magarpatta,Pune" target="_blank">Magarpatta, Pune</a>
+              </p>
+              <p class="price">₹1,75,00,000</p>
+              <p class="details">3 BHK • 1800 sq.ft • With Clubhouse & Gym</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property6Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- 3 BHK Home -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card">
+            <img src="{% static 'img/kn.jpg' %}" alt="2 BHK Apartment in Hadapsar">
+
+            <!-- <img src="../static/Assets/images/kn.jpg" alt="3 BHK Home in Kalyani Nagar"> -->
+            <div class="property-info">
+              <h2>3 BHK Premium Home in Kalyani Nagar</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Kalyani+Nagar,Pune" target="_blank">Kalyani Nagar, Pune</a>
+              </p>
+              <p class="price">₹1,35,00,000</p>
+              <p class="details">3 BHK • 1650 sq.ft • Modern Interiors</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property7Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Villa -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card">
+            <img src="{% static 'img/4.png' %}" alt="2 BHK Apartment in Hadapsar">
+            <!-- <img src="../static/Assets/images/4.png" alt="Villa in Baner"> -->
+            <div class="property-info">
+              <h2>4 BHK Villa in Baner</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Baner,Pune" target="_blank">Baner, Pune</a>
+              </p>
+              <p class="price">₹2,50,00,000</p>
+              <p class="details">4 BHK • 3000 sq.ft • Private Garden</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property8Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Studio -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card">
+            <img src="{% static 'img/vn.avif' %}" alt="2 BHK Apartment in Hadapsar">
+            <!-- <img src="../static/Assets/images/vn.avif" alt="Studio in Viman Nagar"> -->
+            <div class="property-info">
+              <h2>Compact Studio in Viman Nagar</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Viman+Nagar,Pune" target="_blank">Viman Nagar, Pune</a>
+              </p>
+              <p class="price">₹40,00,000</p>
+              <p class="details">1 RK • 450 sq.ft • Fully Furnished</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property9Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Row House -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card">
+            <img src="{% static 'img/rh.jpg' %}" alt="2 BHK Apartment in Hadapsar">
+            <!-- <img src="../static/Assets/images/rh.jpg" alt="Row House in Kothrud"> -->
+            <div class="property-info">
+              <h2>3 BHK Row House in Kothrud</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Kothrud,Pune" target="_blank">Kothrud, Pune</a>
+              </p>
+              <p class="price">₹1,80,00,000</p>
+              <p class="details">3 BHK • 2000 sq.ft • Gated Society</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property10Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- NEW Koregaon Park -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card" data-type="duplex" data-location="koregaon-park" data-price="28000000">
+            <img src="{% static 'img/kp2.jpg' %}" alt="2 BHK Apartment in Hadapsar">
+            <!-- <img src="../static/Assets/images/kp2.jpg" alt="Modern Duplex in Koregaon Park"> -->
+            <div class="property-info">
+              <h2>Modern Duplex in Koregaon Park</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Koregaon+Park,Pune" target="_blank">Koregaon Park, Pune</a>
+              </p>
+              <p class="price">₹2,80,00,000</p>
+              <p class="details">4 BHK • 3200 sq.ft • Semi Furnished</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property11Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- NEW Hinjewadi -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card" data-type="apartment" data-location="hinjewadi" data-price="8500000">
+            <img src="{% static 'img/hp.jpg' %}" alt="2 BHK Apartment in Hadapsar">
+            <!-- <img src="../static/Assets/images/hp.jpg" alt="3 BHK Apartment in Hinjewadi"> -->
+            <div class="property-info">
+              <h2>3 BHK Apartment in Hinjewadi</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Hinjewadi,Pune" target="_blank">Hinjewadi, Pune</a>
+              </p>
+              <p class="price">₹85,00,000</p>
+              <p class="details">3 BHK • 1150 sq.ft • Near Infosys Campus</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property12Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- NEW Hadapsar -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card" data-type="apartment" data-location="hadapsar" data-price="7800000">
+            <img src="{% static 'img/hp2.jpg' %}" alt="2 BHK Apartment in Hadapsar">
+            <!-- <img src="../static/Assets/images/hp2.jpg" alt="3 BHK Apartment in Hadapsar"> -->
+            <div class="property-info">
+              <h2>3 BHK Apartment in Hadapsar</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Hadapsar,Pune" target="_blank">Hadapsar, Pune</a>
+              </p>
+              <p class="price">₹78,00,000</p>
+              <p class="details">3 BHK • 1250 sq.ft • Close to Seasons Mall</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property13Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- NEW Wakad -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card" data-type="3bhk" data-location="wakad" data-price="10500000">
+            <img src="{% static 'img/w1.jpg' %}" alt="2 BHK Apartment in Hadapsar">
+            <!-- <img src="../static/Assets/images/w1.jpg" alt="Luxury 3 BHK in Wakad"> -->
+            <div class="property-info">
+              <h2>Luxury 3 BHK in Wakad</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Wakad,Pune" target="_blank">Wakad, Pune</a>
+              </p>
+              <p class="price">₹1,05,00,000</p>
+              <p class="details">3 BHK • 1500 sq.ft • With Swimming Pool</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property14Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- NEW Shivaji Nagar -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card" data-type="office" data-location="shivaji-nagar" data-price="48000000">
+            <img src="{% static 'img/os.jpg' %}" alt="2 BHK Apartment in Hadapsar">
+            <!-- <img src="../static/Assets/images/os.jpg" alt="Office Space in Shivaji Nagar"> -->
+            <div class="property-info">
+              <h2>Spacious Office in Shivaji Nagar</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Shivajinagar,Pune" target="_blank">Shivajinagar, Pune</a>
+              </p>
+              <p class="price">₹4,80,00,000</p>
+              <p class="details">1500 sq.ft • Furnished • Conference Hall</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property15Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- NEW Magarpatta -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card" data-type="apartment" data-location="magarpatta" data-price="21000000">
+            <img src="{% static 'img/mp.jpg' %}" alt="2 BHK Apartment in Hadapsar">
+            <!-- <img src="../static/Assets/images/mp.jpg" alt="4 BHK in Magarpatta City"> -->
+            <div class="property-info">
+              <h2>4 BHK in Magarpatta City</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Magarpatta,Pune" target="_blank">Magarpatta, Pune</a>
+              </p>
+              <p class="price">₹2,10,00,000</p>
+              <p class="details">4 BHK • 2000 sq.ft • Luxury Amenities</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property16Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- NEW Kalyani Nagar -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card" data-type="apartment" data-location="kalyani-nagar" data-price="9500000">
+            <img src="{% static 'img/rh1.jpg' %}" alt="2 BHK Apartment in Hadapsar">
+            <!-- <img src="../static/Assets/images/kn1.png" alt="2 BHK in Kalyani Nagar"> -->
+            <div class="property-info">
+              <h2>2 BHK Apartment in Kalyani Nagar</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Kalyani+Nagar,Pune" target="_blank">Kalyani Nagar, Pune</a>
+              </p>
+              <p class="price">₹95,00,000</p>
+              <p class="details">2 BHK • 1100 sq.ft • Park Facing</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property17Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- NEW Baner -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card" data-type="villa" data-location="baner" data-price="29000000">
+            <img src="{% static 'img/bn.avif' %}" alt="2 BHK Apartment in Hadapsar">
+            <!-- <img src="../static/Assets/images/bn.avif" alt="Villa in Baner"> -->
+            <div class="property-info">
+              <h2>Modern Villa in Baner</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Baner,Pune" target="_blank">Baner, Pune</a>
+              </p>
+              <p class="price">₹2,90,00,000</p>
+              <p class="details">5 BHK • 3500 sq.ft • Private Terrace</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property18Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- NEW Viman Nagar -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card" data-type="studio" data-location="viman-nagar" data-price="4500000">
+            <img src="{% static 'img/vn1.jpg' %}" alt="2 BHK Apartment in Hadapsar">
+            <!-- <img src="../static/Assets/images/vn1.jpg" alt="Studio Apartment in Viman Nagar"> -->
+            <div class="property-info">
+              <h2>Studio Apartment in Viman Nagar</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Viman+Nagar,Pune" target="_blank">Viman Nagar, Pune</a>
+              </p>
+              <p class="price">₹45,00,000</p>
+              <p class="details">1 BHK • 500 sq.ft • Near Airport</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property19Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- NEW Kothrud -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="property-card" data-type="rowhouse" data-location="kothrud" data-price="19500000">
+            <img src="{% static 'img/rh1.jpg' %}" alt="2 BHK Apartment in Hadapsar">
+            <!-- <img src="../static/Assets/images/rh1.jpg" alt="Row House in Kothrud"> -->
+            <div class="property-info">
+              <h2>Row House in Kothrud</h2>
+              <p class="location">
+                <i class="fa fa-map-marker-alt"></i>
+                <a href="https://www.google.com/maps?q=Kothrud,Pune" target="_blank">Kothrud, Pune</a>
+              </p>
+              <p class="price">₹1,95,00,000</p>
+              <p class="details">3 BHK • 2100 sq.ft • Near Metro Station</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#property20Modal">View
+                Details</button>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ✅ Modal Example -->
+  <div class="modal fade" id="property1Modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Luxury Penthouse in Koregaon Park</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Carousel -->
+          <div id="carouselProperty1" class="carousel slide mb-3" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="{% static 'img/1i1.jpg' %}" class="d-block w-100" alt="Image 1">
+              </div>
+              <div class="carousel-item">
+                <img src="{% static 'img/1i2.jpg' %}" class="d-block w-100" alt="Image 2">
+              </div>
+              <div class="carousel-item">
+                <img src="{% static 'img/1i3.avif' %}" class="d-block w-100" alt="Image 3">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselProperty1" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselProperty1" data-bs-slide="next">
+              <span class="carousel-control-next-icon"></span>
+            </button>
+          </div>
+
+          <p><strong>Contact Name:</strong> Mr. Rajesh Sharma</p>
+          <p><strong>Contact Number:</strong> +91 9876543210</p>
+          <p><strong>Description:</strong> Spacious penthouse with premium interiors and scenic view of Koregaon Park.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal for Property 2 -->
+        <div class="modal fade" id="property2Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">2 BHK Apartment in Hinjewadi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <!-- Carousel -->
+                <div id="carouselProperty2" class="carousel slide mb-3" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                       <img src="{% static 'img/2i1.jpg' %}" class="d-block w-100" alt="Image 1">
+                      <!-- <img src="../static/Assets/images/2i1.jpg" class="d-block w-100" alt="Image 1"> -->
+                    </div>
+                    <div class="carousel-item">
+                       <img src="{% static 'img/2i2.avif' %}" class="d-block w-100" alt="Image 1">
+                      <!-- <img src="../static/Assets/images/2i2.avif" class="d-block w-100" alt="Image 2"> -->
+                    </div>
+                    <div class="carousel-item">
+                       <img src="{% static 'img/2i3.jpg' %}" class="d-block w-100" alt="Image 1">
+                      <!-- <img src="../static/Assets/images/2i3.jpg" class="d-block w-100" alt="Image 3"> -->
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselProperty2"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselProperty2"
+                    data-bs-slide="next">
+                    <span class="carousel-control-prev-icon"></span>
+                  </button>
+                </div>
+
+                <p><strong>Contact Name:</strong> Ms. Neha Patil</p>
+                <p><strong>Contact Number:</strong> +91 9876500000</p>
+                <p><strong>Description:</strong> Affordable 2 BHK apartment close to IT hub, ideal for working
+                  professionals.</p>
+              </div>
+            </div>l-next-icon"></span>
+          </div>
+        </div>
+
+
+         <!-- Modal for Property 3 -->
+        <div class="modal fade" id="property3Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">2 BHK Apartment in Hadapsar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div id="carouselProperty3" class="carousel slide mb-3" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active"><img src="{% static 'img/2i1.jpg' %}" class="d-block w-100">
+                    </div>
+                    <div class="carousel-item"><img src="{% static 'img/2i2.avif' %}" class="d-block w-100"></div>
+                    <div class="carousel-item"><img src="{% static 'img/2i3.jpg' %}" class="d-block w-100"></div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselProperty3"
+                    data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselProperty3"
+                    data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+                </div>
+                <p><strong>Contact Name:</strong> Mr. Sharma</p>
+                <p><strong>Contact Number:</strong> +91 9876543210</p>
+                <p><strong>Description:</strong> Spacious 2 BHK (900 sq.ft) apartment near Amanora Mall. Ideal for
+                  families.</p>
+              </div>
+            </div>l-next-icon"></span>
+          </div>
+        </div>
+
+
+
+        <!-- Modal for Property 4 -->
+        <div class="modal fade" id="property4Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">3 BHK Flat in Wakad</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div id="carouselProperty4" class="carousel slide mb-3" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active"><img src="{% static 'img/2i1.jpg' %}" class="d-block w-100">
+                    </div>
+                    <div class="carousel-item"><img src="{% static 'img/2i2.avif' %}" class="d-block w-100"></div>
+                    <div class="carousel-item"><img src="{% static 'img/2i3.jpg' %}" class="d-block w-100"></div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselProperty4"
+                    data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselProperty4"
+                    data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+                </div>
+                <p><strong>Contact Name:</strong> Ms. Priya</p>
+                <p><strong>Contact Number:</strong> +91 9876500011</p>
+                <p><strong>Description:</strong> Modern 3 BHK (1400 sq.ft) flat near Mumbai-Pune Expressway. Great
+                  connectivity.</p>
+              </div>
+            </div>l-next-icon"></span>
+          </div>
+        </div>
+
+
+
+        <!-- Modal for Property 5 -->
+        <div class="modal fade" id="property5Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Commercial Office in Shivaji Nagar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div id="carouselProperty5" class="carousel slide mb-3" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                       <img src="{% static 'img/2i1.jpg' %}" class="d-block w-100" alt="Image 1">
+                      <!-- <img src="../static/Assets/images/2i1.jpg" class="d-block w-100"> -->
+                    </div>
+                    <div class="carousel-item">
+                       <img src="{% static 'img/2i2.avif' %}" class="d-block w-100" alt="Image 1"></div>
+                      <!-- <img src="../static/Assets/images/2i2.avif" class="d-block w-100"></div> -->
+                    <div class="carousel-item">
+                       <img src="{% static 'img/2i3.jpg' %}" class="d-block w-100" alt="Image 1">
+                      <!-- <img src="../static/Assets/images/2i3.jpg" class="d-block w-100"></div> -->
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselProperty5"
+                    data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselProperty5"
+                    data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+                </div>
+                <p><strong>Contact Name:</strong> Mr. Verma</p>
+                <p><strong>Contact Number:</strong> +91 9123456780</p>
+                <p><strong>Description:</strong> Fully furnished 1200 sq.ft commercial office in prime Shivaji Nagar
+                  location.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Property 6 -->
+        <div class="modal fade" id="property5Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Luxury Apartment in Magarpatta City</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div id="carouselProperty5" class="carousel slide mb-3" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                       <img src="{% static 'img/2i1.jpg' %}" class="d-block w-100" alt="Image 1">
+                      <!-- <img src="../static/Assets/images/2i1.jpg" class="d-block w-100"> -->
+                    </div>
+                    <div class="carousel-item">
+                       <img src="{% static 'img/2i2.avif' %}" class="d-block w-100" alt="Image 1"></div>
+                      <!-- <img src="../static/Assets/images/2i2.avif" class="d-block w-100"></div> -->
+                    <div class="carousel-item">
+                       <img src="{% static 'img/2i3.jpg' %}" class="d-block w-100" alt="Image 1">
+                      <!-- <img src="../static/Assets/images/2i3.jpg" class="d-block w-100"></div> -->
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselProperty5"
+                    data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselProperty5"
+                    data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+                </div>
+                <p><strong>Contact Name:</strong> Mrs. Nair</p>
+                <p><strong>Contact Number:</strong> +91 9001122334</p>
+                <p><strong>Description:</strong> Premium 3 BHK (1800 sq.ft) flat with clubhouse & gym facilities in
+                  Magarpatta City.</p>
+              </div>
+            </div>
+          </div>
+       
+
+        <!-- Property 6: Magarpatta Luxury Flat -->
+        <!-- <div class="modal fade" id="property6Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Luxury Apartment in Magarpatta City</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div id="carouselProperty6" class="carousel slide mb-3" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active"><img src="{% static 'img/2i1.jpg' %}" class="d-block w-100">
+                    </div>
+                    <div class="carousel-item"><img src="{% static 'img/2i2.avif' %} class="d-block w-100"></div>
+                    <div class="carousel-item"><img src="{% static 'img/2i3.jpg' %}" class="d-block w-100"></div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselProperty6"
+                    data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselProperty6"
+                    data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+                </div>
+                <p><strong>Contact Name:</strong> Mrs. Nair</p>
+                <p><strong>Contact Number:</strong> +91 9001122334</p>
+                <p><strong>Description:</strong> Premium 3 BHK (1800 sq.ft) flat with clubhouse & gym facilities in
+                  Magarpatta City.</p>
+              </div>
+            </div>
+          </div>
+         -->
+       <!-- Property 7: Kalyani Nagar Home -->
+        <div class="modal fade" id="property7Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">3 BHK Premium Home in Kalyani Nagar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div id="carouselProperty7" class="carousel slide mb-3" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active"><img src="{% static 'img/1i1.jpg' %}" class="d-block w-100">
+                    </div>
+                    <div class="carousel-item"><img src="static/img/2i2.avif" class="d-block w-100"></div>
+                    <div class="carousel-item"><img src="{% static 'img/1i1.jpg' %}" class="d-block w-100"></div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselProperty7"
+                    data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselProperty7"
+                    data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+                </div>
+                <p><strong>Contact Name:</strong> Mr. Deshmukh</p>
+                <p><strong>Contact Number:</strong> +91 9898989898</p>
+                <p><strong>Description:</strong> Elegant 3 BHK (1650 sq.ft) home with modern interiors in Kalyani Nagar.
+                </p>
+              </div>
+            </div>
+          </div>
+        
+
+
+        <!-- Modal for Property 8 -->
+        <div class="modal fade" id="property8Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">4 BHK Villa in Baner</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div id="carouselProperty8" class="carousel slide mb-3" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+                     <div class="carousel-item active"><img src="{% static 'img/2i1.jpg' %}" class="d-block w-100" alt="Image 1"></div>
+                    <div class="carousel-item"> <img src="{% static 'img/2i2.avif' %}" class="d-block w-100" alt="Image 1"></div>
+                    <div class="carousel-item"><img src="{% static 'img/2i3.jpg' %}" class="d-block w-100" alt="Image 1"></div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselProperty8"
+                    data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselProperty8"
+                    data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+                </div>
+                <p><strong>Contact Name:</strong> Mr. Kulkarni</p>
+                <p><strong>Contact Number:</strong> +91 9876000008</p>
+                <p><strong>Description:</strong> Luxurious 4 BHK villa with a private garden and terrace in Baner, Pune.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Property 9 -->
+        <div class="modal fade" id="property9Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Compact Studio in Viman Nagar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <img src="../static/Assets/images/2i1.jpg" class="img-fluid mb-3" alt="Studio in Viman Nagar">
+                <p><strong>Location:</strong> Viman Nagar, Pune</p>
+                <p><strong>Price:</strong> ₹40,00,000</p>
+                <p><strong>Details:</strong> 1 RK • 450 sq.ft • Fully Furnished</p>
+                <hr>
+                <p><strong>Contact:</strong> Mr. Ramesh – 📞 +91 98765 43210</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Property 10 -->
+        <div class="modal fade" id="property10Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">3 BHK Row House in Kothrud</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                
+
+                <img src="{% static 'img/2i3.jpg' %}" class="img-fluid mb-3" alt="Row House in Kothrud">
+                <p><strong>Location:</strong> Kothrud, Pune</p>
+                <p><strong>Price:</strong> ₹1,80,00,000</p>
+                <p><strong>Details:</strong> 3 BHK • 2000 sq.ft • Gated Society</p>
+                <hr>
+                <p><strong>Contact:</strong> Mr. Suresh – 📞 +91 98765 43211</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Property 11 -->
+        <div class="modal fade" id="property11Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Modern Duplex in Koregaon Park</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                
+                <img src="{% static 'img/2i2.avif' %}" class="img-fluid mb-3" alt="Duplex in Koregaon Park">
+                <p><strong>Location:</strong> Koregaon Park, Pune</p>
+                <p><strong>Price:</strong> ₹2,80,00,000</p>
+                <p><strong>Details:</strong> 4 BHK • 3200 sq.ft • Semi Furnished</p>
+                <hr>
+                <p><strong>Contact:</strong> Mr. Anil – 📞 +91 98765 43212</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Property 12 -->
+        <div class="modal fade" id="property12Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">3 BHK Apartment in Hinjewadi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+               
+                <img src="{% static 'img/2i2.avif' %}" class="img-fluid mb-3" alt="Apartment in Hinjewadi">
+                <p><strong>Location:</strong> Hinjewadi, Pune</p>
+                <p><strong>Price:</strong> ₹85,00,000</p>
+                <p><strong>Details:</strong> 3 BHK • 1150 sq.ft • Near Infosys Campus</p>
+                <hr>
+                <p><strong>Contact:</strong> Ms. Priya – 📞 +91 98765 43213</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Property 13 -->
+        <div class="modal fade" id="property13Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">3 BHK Apartment in Hadapsar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                
+                <img src="{% static 'img/2i1.jpg' %}" class="img-fluid mb-3" alt="Apartment in Hadapsar">
+                <p><strong>Location:</strong> Hadapsar, Pune</p>
+                <p><strong>Price:</strong> ₹78,00,000</p>
+                <p><strong>Details:</strong> 3 BHK • 1250 sq.ft • Close to Seasons Mall</p>
+                <hr>
+                <p><strong>Contact:</strong> Mr. Karan – 📞 +91 98765 43214</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Property 14 -->
+        <div class="modal fade" id="property14Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Luxury 3 BHK in Wakad</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                
+                <img src="{% static 'img/2i2.avif' %}" class="img-fluid mb-3" alt="3 BHK in Wakad">
+                <p><strong>Location:</strong> Wakad, Pune</p>
+                <p><strong>Price:</strong> ₹1,05,00,000</p>
+                <p><strong>Details:</strong> 3 BHK • 1500 sq.ft • With Swimming Pool</p>
+                <hr>
+                <p><strong>Contact:</strong> Ms. Neha – 📞 +91 98765 43215</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Property 15 -->
+        <div class="modal fade" id="property15Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Spacious Office in Shivaji Nagar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                 
+                <img src="{% static 'img/2i3.jpg' %}" class="img-fluid mb-3" alt="Office in Shivaji Nagar">
+                <p><strong>Location:</strong> Shivaji Nagar, Pune</p>
+                <p><strong>Price:</strong> ₹4,80,00,000</p>
+                <p><strong>Details:</strong> 1500 sq.ft • Furnished • Conference Hall</p>
+                <hr>
+                <p><strong>Contact:</strong> Mr. Arjun – 📞 +91 98765 43216</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Property 16 -->
+        <div class="modal fade" id="property16Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">4 BHK in Magarpatta City</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                
+                <img src="{% static 'img/2i1.jpg' %}" class="img-fluid mb-3" alt="Magarpatta Apartment">
+                <p><strong>Location:</strong> Magarpatta City, Pune</p>
+                <p><strong>Price:</strong> ₹2,10,00,000</p>
+                <p><strong>Details:</strong> 4 BHK • 2000 sq.ft • Luxury Amenities</p>
+                <hr>
+                <p><strong>Contact:</strong> Ms. Aarti – 📞 +91 98765 43217</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Property 17 -->
+        <div class="modal fade" id="property17Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">2 BHK Apartment in Kalyani Nagar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                
+                <img src="{% static 'img/2i2.avif' %}" class="img-fluid mb-3" alt="Apartment in Kalyani Nagar">
+                <p><strong>Location:</strong> Kalyani Nagar, Pune</p>
+                <p><strong>Price:</strong> ₹95,00,000</p>
+                <p><strong>Details:</strong> 2 BHK • 1100 sq.ft • Park Facing</p>
+                <hr>
+                <p><strong>Contact:</strong> Mr. Deepak – 📞 +91 98765 43218</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Property 18 -->
+        <div class="modal fade" id="property18Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Modern Villa in Baner</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                
+                <img src="{% static 'img/2i2.avif' %}" class="img-fluid mb-3" alt="Villa in Baner">
+                <p><strong>Location:</strong> Baner, Pune</p>
+                <p><strong>Price:</strong> ₹2,90,00,000</p>
+                <p><strong>Details:</strong> 5 BHK • 3500 sq.ft • Private Terrace</p>
+                <hr>
+                <p><strong>Contact:</strong> Mr. Rohit – <a href="tel:+919876543219"> +91 9876543219</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Property 19 -->
+        <div class="modal fade" id="property19Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Studio Apartment in Viman Nagar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                
+                <img src="{% static 'img/2i3.jpg' %}" class="img-fluid mb-3" alt="Studio in Viman Nagar">
+                <p><strong>Location:</strong> Viman Nagar, Pune</p>
+                <p><strong>Price:</strong> ₹45,00,000</p>
+                <p><strong>Details:</strong> 1 BHK • 500 sq.ft • Near Airport</p>
+                <hr>
+                <p><strong>Contact:</strong> Ms. Pooja – 📞 +91 98765 43220</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Property 20 -->
+        <div class="modal fade" id="property20Modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Row House in Kothrud</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                
+                <img src="{% static 'img/2i2.avif' %}" class="img-fluid mb-3" alt="Row House in Kothrud">
+                <p><strong>Location:</strong> Kothrud, Pune</p>
+                <p><strong>Price:</strong> ₹1,95,00,000</p>
+                <p><strong>Details:</strong> 3 BHK • 2100 sq.ft • Near Metro Station</p>
+                <hr>
+                <p><strong>Contact:</strong> Mr. Sameer – 📞 +91 98765 43221</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+  <!-- ✅ Footer -->
+  <footer class="footer bg-dark text-white pt-5 pb-3 mt-5 w-100">
+    <div class="container">
+      <div class="row">
+        <!-- Column 1 -->
+        <div class="col-md-4 mb-3">
+          <img src="{% static 'img/COMPANY 1.PNG' %}" alt="Delegent Properties" height="40">
+          <p>Your trusted platform for buying, selling, and renting properties with ease.</p>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="col-md-4 mb-3">
+          <h5 class="fw-bold">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="{% url 'home' %}" class="footer-link">Home</a></li>
+            <li><a href="{% url 'properties' %}" class="footer-link">Properties</a></li>
+            <li><a href="{% url 'contact' %}" class="footer-link">Contact</a></li>
+            <li><a href="{% url 'login' %}" class="footer-link">Login</a></li>
+            <li><a href="{% url 'register' %}" class="footer-link">Register</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Social Links -->
+        <div class="col-md-4 mb-3">
+          <h5 class="fw-bold">Follow Us</h5>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+      <hr class="bg-light">
+      <p class="text-center mb-0">Copyright @ Kavya Infoweb Pvt Ltd</p>
+    </div>
+  </footer>
+
+  <!-- ✅ Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/properties.js' %}"></script>
+  <script src="{% static 'js/nav.js' %}"></script>
+
+</body>
+
+</html>
