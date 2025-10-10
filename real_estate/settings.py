@@ -97,10 +97,12 @@ LOGIN_REDIRECT_URL = 'home'
 
 WSGI_APPLICATION = 'real_estate.wsgi.application'
 
-ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME'), 'localhost', '127.0.0.1']
-ALLOWED_HOSTS = [host for host in ALLOWED_HOSTS if host]
+ALLOWED_HOSTS = ['real-estate09-2.onrender.com', 'localhost', '127.0.0.1']
 
-
+# (Optional — dynamic render host साठी)
+render_host = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if render_host:
+    ALLOWED_HOSTS.append(render_host)
 
 
 
@@ -162,7 +164,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-ALLOWED_HOSTS = ['real-estate09.onrender.com', '127.0.0.1', 'localhost']
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
