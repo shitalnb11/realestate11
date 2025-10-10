@@ -84,7 +84,9 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-
+# Media files (user uploads)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 LOGIN_URL = 'login'
@@ -95,11 +97,12 @@ LOGIN_REDIRECT_URL = 'home'
 
 WSGI_APPLICATION = 'real_estate.wsgi.application'
 ALLOWED_HOSTS = [
-    'frontendroot.onrender.com',
-    'fontendroot.onrender.com',   
+    'real-estate09-2.onrender.com',
+    'real-estate09.onrender.com',
     'localhost',
     '127.0.0.1'
 ]
+
 
 
 

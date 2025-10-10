@@ -14,9 +14,9 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
  
   <!-- ✅ Custom CSS -->
-  <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+  <!-- <link rel="stylesheet" href="{% static 'css/nav.css' %}"> -->
   <style>
-    /* Properties Page Styles */
+   
     .property-card {
         border: none;
         border-radius: 12px;
@@ -139,29 +139,188 @@
     .no-properties i {
         opacity: 0.5;
     }
- 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .filter-bar {
-            padding: 15px;
-        }
-       
-        .filter-bar input,
-        .filter-bar select,
-        .filter-bar .btn {
-            width: 100%;
-            margin: 5px 0;
-        }
-       
-        .property-features {
-            flex-direction: column;
-            gap: 5px;
-        }
-       
-        .card-actions {
-            flex-direction: column;
-        }
-    }
+    footer {
+  background-color: #222;
+  color: white;
+  width: 100%;
+}
+
+footer a {
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: #FFD700;
+}
+
+.custom-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000; 
+  background-color: #000; 
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.delegent-platform .footer-link {
+  color: #fff;
+  text-decoration: none;
+  
+}
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  height: 100%;
+  background-color: #f9f9f9; /* optional */
+  overflow-x: hidden;
+}
+
+/* Main Page Container Fix */
+.container,
+.container-fluid,
+.row {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* ✅ Footer Full Width + No Bottom Space */
+.site-footer {
+  background-color: #111;
+  color: #fff;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-bottom: 0 !important;  /* removes bottom gap */
+  padding: 60px 0 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* ✅ Force footer to stay at bottom visually */
+body > footer.site-footer {
+  display: block;
+  bottom: 0;
+}
+
+/* ✅ Remove any stray gaps caused by elements below footer */
+body::after {
+  content: "";
+  display: block;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* ✅ Optional footer inner styling */
+.site-footer .footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.footer-link {
+  color: #bbb;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 6px;
+  transition: color 0.3s ease;
+}
+.footer-link:hover {
+  color: #00bcd4;
+}
+
+.social-icons a {
+  color: #bbb;
+  margin-right: 12px;
+  font-size: 20px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.social-icons a:hover {
+  color: #00bcd4;
+  transform: scale(1.1);
+}
+footer + div,
+footer + section {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
+/* 💥 Remove bottom white space below footer */
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: #fff; /* किंवा तुझ्या page color प्रमाणे */
+}
+/* 🧱 Full width, no gap footer */
+footer.footer {
+  background: #0d0d0d;
+  color: white;
+  width: 100vw;
+  margin: 0 !important;
+  padding: 60px 0 25px;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* ✂️ Remove all extra spacing around footer */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: #f9f9f9;
+}
+
+/* ✂️ Remove top/bottom gap between sections */
+body > * {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+footer.footer + * {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Ensure page fits viewport */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+/* ✅ Remove Bootstrap container’s default padding */
+#foot.container-fluid, 
+#foot.container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin: 0 !important;
+  width: 100%;
+}
+
+
   </style>
 </head>
  
@@ -381,48 +540,50 @@
   </div>
 </div>
  
- 
-  <!-- ✅ Footer -->
-  <footer class="footer bg-dark text-white pt-5 pb-3 mt-5 w-100">
-    <div class="container">
-      <div class="row">
-        <!-- Column 1 -->
-        <div class="col-md-4 mb-3">
-          <img src="{% static 'img/COMPANY 1.PNG' %}" alt="Delegent Properties" height="40">
-          <p>Your trusted platform for buying, selling, and renting properties with ease.</p>
-        </div>
- 
-        <!-- Column 2: Quick Links -->
-        <div class="col-md-4 mb-3">
-          <h5 class="fw-bold">Quick Links</h5>
-          <ul class="list-unstyled">
-            <li><a href="{% url 'home' %}" class="footer-link">Home</a></li>
-            <li><a href="{% url 'properties' %}" class="footer-link">Properties</a></li>
-            <li><a href="{% url 'contact' %}" class="footer-link">Contact</a></li>
-            {% if user.is_authenticated %}
-              <li><a href="{% url 'logout' %}" class="footer-link">Logout</a></li>
-            {% else %}
-              <li><a href="{% url 'login' %}" class="footer-link">Login</a></li>
-              <li><a href="{% url 'register' %}" class="footer-link">Register</a></li>
-            {% endif %}
-          </ul>
-        </div>
- 
-        <!-- Column 3: Social Links -->
-        <div class="col-md-4 mb-3">
-          <h5 class="fw-bold">Follow Us</h5>
-          <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
-          </div>
+ <!-- ✅ FOOTER (FULL WIDTH FIXED) -->
+<footer class="site-footer text-white mt-5">
+  <div class="footer-inner">
+    <div class="row">
+      <!-- Column 1 -->
+      <div class="col-md-4 mb-3">
+        <img src="{% static 'img/COMPANY22.PNG' %}" alt="Delegent Properties" height="40">
+        <p>Your trusted platform for buying, selling, and renting properties with ease.</p>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div class="col-md-4 mb-3">
+        <h5 class="fw-bold">Quick Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="{% url 'home' %}" class="footer-link">Home</a></li>
+          <li><a href="{% url 'properties' %}" class="footer-link">Properties</a></li>
+          <li><a href="{% url 'contact' %}" class="footer-link">Contact</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}" class="footer-link">Logout</a></li>
+          {% else %}
+            <li><a href="{% url 'login' %}" class="footer-link">Login</a></li>
+            <li><a href="{% url 'register' %}" class="footer-link">Register</a></li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <!-- Column 3: Social Links -->
+      <div class="col-md-4 mb-3">
+        <h5 class="fw-bold">Follow Us</h5>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
         </div>
       </div>
-      <hr class="bg-light">
-      <p class="text-center mb-0">Copyright @ Kavya Infoweb Pvt Ltd</p>
     </div>
-  </footer>
+
+    <hr class="bg-light">
+    <p class="text-center mb-0 small">Copyright © Kavya Infoweb Pvt Ltd</p>
+  </div>
+</footer>
+
+
  
  
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
