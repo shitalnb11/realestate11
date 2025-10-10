@@ -15,6 +15,7 @@ urlpatterns = [
 
     # ✅ Properties Page (🔥 FIXED)
     path('properties/', views.properties, name='properties'),
+    path('add-property/', views.add_property, name='add_property'),
 
     path('property/', views.property, name='property'),
 
@@ -41,4 +42,6 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
         template_name='registration/password_reset_complete.html'
     ), name='password_reset_complete'),
+   
+
 ]

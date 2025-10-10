@@ -45,13 +45,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+     'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', 
+   
 ]
 
 ROOT_URLCONF = 'real_estate.urls'
@@ -82,6 +83,8 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+
 
 
 LOGIN_URL = 'login'
@@ -161,3 +164,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ALLOWED_HOSTS = ['real-estate09.onrender.com', '127.0.0.1', 'localhost']
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# Your sender Gmail
+EMAIL_HOST_USER = 'yourcompany@gmail.com'
+EMAIL_HOST_PASSWORD = 'your-app-password'
+
+DEFAULT_FROM_EMAIL = 'Real Estate <yourcompany@gmail.com>'

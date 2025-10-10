@@ -4,6 +4,10 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import UserProfile, ContactMessage
+from django.contrib.auth import login
+from .models import Property
+from .forms import PropertyForm
+from django.http import HttpResponse 
 
 
 # -----------------------------
@@ -119,3 +123,18 @@ def contact(request):
         return redirect("contact")
 
     return render(request, "contact.html")
+
+
+
+@login_required
+def add_property(request):
+    if request.method == 'POST':
+        form = PropertyForm(request.POST, request.FILES)
+        if form.is_valid():
+            property = form.save(commit=False)
+            property.owner = request.user  # if your model has owner field
+            property.save()
+            return redirect('properties')  # redirect to property listing page
+    else:
+        form = PropertyForm()
+    return render(request, 'add_property.html', {'form': form})

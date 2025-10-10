@@ -10,7 +10,7 @@ body {
 }
 
 /* Force navbar full width */
-.navbar {
+/* .navbar {
   width: 100% !important;
   left: 0;
   right: 0;
@@ -19,7 +19,7 @@ body {
   position: fixed;
   top: 0;
   z-index: 1030; /* stay above content */
-}
+
 
 
 .login-wrapper {

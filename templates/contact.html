@@ -21,7 +21,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'home' %}">
-      <img src="{% static 'img/COMPANY 1.PNG' %}" alt="Delegent Properties" height="40">
+      <img src="{% static 'img/COMPANY22.PNG' %}"  style="margin-left: 5px;" alt="Delegent Properties" height="40">
     </a>
  
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -46,13 +46,13 @@
         {% endif %}
       </ul>
  
-      <p style="color:white; margin-top:15px; margin-left:20px; color:rgb(207,198,198);">
+      <!-- <p style="color:white; margin-top:15px; margin-left:20px; color:rgb(207,198,198);">
         {% if user.is_authenticated %}
           User: {{ user.username }}
         {% else %}
           User: Not logged in
         {% endif %}
-      </p>
+      </p> -->
     </div>
   </div>
 </nav>
@@ -75,7 +75,7 @@
             <span>CONTACT</span>
             <span>US</span>
           </div>
-          <div class="app-contact">CONTACT INFO: +62 88 888 888 888</div>
+          <div class="app-contact" style="font-size: 11px;">CONTACT INFO: +62 88 888 888 888</div>
         </div>
  
         <div class="screen-body-item">
@@ -121,43 +121,39 @@
  
 <!-- ✅ Footer Section -->
 <footer class="footer bg-dark text-white pt-5 pb-3 mt-5">
-  <div class="footer-wrapper">
-    <div class="container">
-      <div class="row">
-        <!-- Column 1 -->
-        <div class="col-md-4 mb-3">
-          <img src="{% static 'img/COMPANY 1.PNG' %}" alt="Delegent Properties" height="40">
-          <p>Your trusted platform for buying, selling, and renting properties with ease.</p>
-        </div>
- 
-        <!-- Column 2: Quick Links -->
-        <div class="col-md-4 mb-3">
-          <h5 class="fw-bold">Quick Links</h5>
-          <ul class="list-unstyled">
-            <li><a href="{% url 'home' %}" class="footer-link text-white">Home</a></li>
-            <li><a href="{% url 'properties' %}" class="footer-link text-white">Properties</a></li>
-            <li><a href="{% url 'contact' %}" class="footer-link text-white">Contact</a></li>
-            <li><a href="{% url 'login' %}" class="footer-link text-white">Login</a></li>
-            <li><a href="{% url 'register' %}" class="footer-link text-white">Register</a></li>
-          </ul>
-        </div>
- 
-        <!-- Column 3: Social -->
-        <div class="col-md-4 mb-3">
-          <h5 class="fw-bold">Follow Us</h5>
-          <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook text-white me-3"></i></a>
-            <a href="#"><i class="fab fa-twitter text-white me-3"></i></a>
-            <a href="#"><i class="fab fa-instagram text-white me-3"></i></a>
-            <a href="#"><i class="fab fa-linkedin text-white"></i></a>
-          </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <img src="{% static 'img/COMPANY22.PNG' %}" height="40" alt="Real Nest">
+        <p>Your trusted platform for buying, selling, and renting properties with ease.</p>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <h5 class="fw-bold">Quick Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="{% url 'home' %}" class="footer-link">Home</a></li>
+          <li><a href="{% url 'properties' %}" class="footer-link">Properties</a></li>
+          <li><a href="{% url 'contact' %}" class="footer-link">Contact</a></li>
+          <li><a href="{% url 'login' %}" class="footer-link">Login</a></li>
+          <li><a href="{% url 'register' %}" class="footer-link">Register</a></li>
+        </ul>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <h5 class="fw-bold">Follow Us</h5>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook text-white me-3"></i></a>
+          <a href="#"><i class="fab fa-twitter text-white me-3"></i></a>
+          <a href="#"><i class="fab fa-instagram text-white me-3"></i></a>
+          <a href="#"><i class="fab fa-linkedin text-white"></i></a>
         </div>
       </div>
-      <hr class="bg-light">
-      <p class="text-center mb-0">© KIPL | 2025 RealEstate Platform</p>
     </div>
+    <hr class="bg-light">
+    <p class="text-center mb-0">© KIPL | 2025 RealEstate Platform</p>
   </div>
 </footer>
+
  
 <!-- ✅ JS Validation Script -->
 <script>
