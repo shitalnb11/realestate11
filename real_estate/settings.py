@@ -96,12 +96,9 @@ LOGIN_REDIRECT_URL = 'home'
 
 
 WSGI_APPLICATION = 'real_estate.wsgi.application'
-ALLOWED_HOSTS = [
-    'real-estate09-2.onrender.com',
-    'real-estate09.onrender.com',
-    'localhost',
-    '127.0.0.1'
-]
+
+ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME'), 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [host for host in ALLOWED_HOSTS if host]
 
 
 
