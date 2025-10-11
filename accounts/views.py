@@ -54,6 +54,11 @@ def register(request):
 # LOGIN VIEW
 # -----------------------------
 def user_login(request):
+    # 🧹 Always clear old messages first (GET or POST)
+    storage = messages.get_messages(request)
+    for _ in storage:
+        pass  # consume old messages
+
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -62,12 +67,14 @@ def user_login(request):
 
         if user is not None:
             login(request, user)
-            messages.success(request, f"🎉 Welcome {user.username}!")
-            return redirect("properties")
+            return redirect("properties")  # ✅ Successful login — direct redirect
         else:
+            # ❌ Invalid credentials — show error message only once
             messages.error(request, "⚠️ Invalid username or password!")
+            return render(request, "registration/login.html")  # ✅ No redirect
 
     return render(request, "registration/login.html")
+
 
 
 # -----------------------------
@@ -122,6 +129,8 @@ def contact(request):
         return redirect("contact")
 
     return render(request, "contact.html")
+
+
 # -----------------------------
 # PROPERTY DETAIL VIEW (for single property)
 # -----------------------------

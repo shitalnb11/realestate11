@@ -14,7 +14,7 @@
  
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
- 
+ <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/COMPANY22.PNG' %}">
   <!-- Local CSS via Django -->
   <link rel="stylesheet" href="{% static 'css/property.css' %}"/>
   <link rel="stylesheet" href="{% static 'css/nav.css' %}"/>
@@ -33,14 +33,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'properties' %}">Properties</a></li>
+                    <li class="nav-item"><a class="nav-link " href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'properties' %}">Properties</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
                     <!-- <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login/Register</a></li> -->
                     {% if user.is_authenticated %}
                     <form action="{% url 'logout' %}" method="post" style="display:inline;">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-link nav-link" style="color:white; text-decoration:none;">Logout</button>
+                        <button type="submit" class="btn btn-link nav-link" style= text-decoration:none;">Logout</button>
                     </form>
                     {% else %}
                     <li class="nav-item">
@@ -65,7 +65,7 @@
  
     <!-- Hero Section -->
     <section class="hero">
-      <img src="{% static 'img/2.jpg' %}" alt="Property Hero" class="hero-img">
+      <img src="{% static 'img/propcard.jpg' %}" alt="Property Hero" class="hero-img">
       <div class="overlay"></div>
       <div class="hero-text">
         <h1 id="propertyName">Dream Heights Apartment</h1>
@@ -148,10 +148,10 @@
                     <div class="col-md-4 mb-3">
                         <h5 class="fw-bold">Follow Us</h5>
                         <div class="social-icons">
-                            <a href="#"><i class="fab fa-facebook"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://www.facebook.com/"><i class="fab fa-facebook"></i></a>
+                            <a href="https://x.com/i/flow/signup?lang=en"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/accounts/login/?hl=en"><i class="fab fa-instagram"></i></a>
+                            <a href="https://api.linkedin.com/login"><i class="fab fa-linkedin"></i></a>
                         </div>
                     </div>
                 </div>

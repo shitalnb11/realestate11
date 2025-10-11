@@ -5,24 +5,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Properties | Delegent Properties</title>
+  <title>Properties </title>
  
   <!-- ✅ Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
  
   <!-- ✅ Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
- 
+ <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/COMPANY22.PNG' %}">
   <!-- ✅ Custom CSS -->
   <!-- <link rel="stylesheet" href="{% static 'css/nav.css' %}"> -->
   <style>
    
+  
+
+   /* Force navbar full width */
+ .navbar {
+  width: 100% !important;
+  height: 65px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0.5rem 1rem;
+  position: fixed;
+  top: 0;
+  margin-bottom: 100px;
+  z-index: 1030; }
+
     .property-card {
         border: none;
         border-radius: 12px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         overflow: hidden;
+        
     }
  
     .property-card:hover {
@@ -367,7 +383,7 @@ main {
   </nav>
  
   <!-- ✅ Header -->
-  <header class="text-center py-4">
+  <header class="text-center py-4" style="margin-top: 100px;">
     <h1>Properties for Sale in Pune</h1>
     <p>Explore Apartments, Villas, 3BHK Homes, and more across Pune</p>
   </header>
@@ -570,10 +586,10 @@ main {
       <div class="col-md-4 mb-3">
         <h5 class="fw-bold">Follow Us</h5>
         <div class="social-icons">
-          <a href="#"><i class="fab fa-facebook"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="https://www.facebook.com/"><i class="fab fa-facebook"></i></a>
+                            <a href="https://x.com/i/flow/signup?lang=en"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/accounts/login/?hl=en"><i class="fab fa-instagram"></i></a>
+                            <a href="https://api.linkedin.com/login"><i class="fab fa-linkedin"></i></a>
         </div>
       </div>
     </div>
