@@ -5,7 +5,7 @@
 }
 
 body {
-  background: linear-gradient(to right, #ea1d6f 0%, #eb466b 100%);
+ background: linear-gradient(to right, #e6c0a7 0%, #ecc8b0 100%);
   font-size: 12px;
 }
 
@@ -109,8 +109,8 @@ body, button, input {
   display: flex;
   flex-direction: column;
   position: relative;
-  color: #ea1d6f;
-  font-size: 26px;
+  color: #e98e43;
+  font-size: 32px;
 }
 
 .app-title:after {
@@ -121,13 +121,13 @@ body, button, input {
   bottom: -10px;
   width: 25px;
   height: 4px;
-  background: #ea1d6f;
+  background:  #e98e43;
 }
 
 .app-contact {
   margin-top: auto;
-  font-size: 8px;
-  color: #888;
+  font-size: 15px;
+  color: #e4dfdf;
 }
 
 .app-form-group {
@@ -167,14 +167,14 @@ body, button, input {
 .app-form-button {
   background: none;
   border: none;
-  color: #ea1d6f;
+  color: #e98e43;
   font-size: 14px;
   cursor: pointer;
   outline: none;
 }
 
 .app-form-button:hover {
-  color: #b9134f;
+  color:  #e98e43;
 }
 
 .credits {
@@ -201,6 +201,7 @@ body, button, input {
   height: 20px;
   margin: 0 5px;
 }
+
 
 @media screen and (max-width: 520px) {
   .screen-body {
@@ -233,3 +234,19 @@ body, button, input {
     padding: 0;
   }
 }
+/* Navbar font styles */
+.navbar, .navbar a, .navbar button {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400; /* bold like your buttons */
+    font-size: 14px; /* or any px size you want */
+    color: #acacac; /* example color, adjust if needed */
+}
+ 
+/* Footer font styles */
+.footer, .footer p, .footer a {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300; /* normal weight for footer text */
+    font-size: 14px; /* slightly smaller */
+    color: #acacac; /* subtle color */
+}
+ 

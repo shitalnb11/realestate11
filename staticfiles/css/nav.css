@@ -1,15 +1,44 @@
-/* Custom Navbar Styling */
+Custom Navbar Styling
 .navbar {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+ position: relative !important;
+  z-index: 9999 !important;
 }
 
 .navbar-nav .nav-link:hover {
-  color: #FFD700; /* gold hover effect */
+  color: #FFD700; 
 }
 
-/* Footer Styling */
+.navbar .nav-item .nav-link i {
+  transition: color 0.3s ease;
+}
+
+.navbar .nav-item .nav-link:hover i {
+  color: #FFD700; 
+}
+
+.dropdown-menu {
+  min-width: 160px;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.dropdown-item-text {
+  padding: 0.5rem 1rem;
+}
+.navbar .dropdown-menu {
+  border-radius: 10px;
+}
+
+.navbar .nav-link i {
+  transition: 0.2s ease;
+}
+
+.navbar .nav-link:hover i {
+  color: #f0bb0d; 
+}
+
+
+
 footer {
   background-color: #222;
   color: white;
@@ -20,37 +49,45 @@ footer a {
 }
 
 footer a:hover {
-  color: #FFD700; /* gold hover on footer links */
+  color: #FFD700;
 }
 
 .custom-navbar {
   position: sticky;
   top: 0;
-  z-index: 1000; /* Ensure it stays on top of all elements */
-  background-color: #000; /* Or your preferred dark shade */
+  z-index: 1000; 
+  background-color: #000; 
   padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .delegent-platform .footer-link {
   color: #fff;
   text-decoration: none;
-  /* other styles */
+  
+}
+.navbar .nav-link i,
+.navbar .nav-link span {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: inline-block !important;
 }
 
 
-/* Navbar */
+
+
 .navbar-nav {
-  /* Default left alignment */
+ 
   text-align: left;
 }
 
-/* Center navbar links on small devices when collapsed */
+
 @media (max-width: 991.98px) {
-  /* Center the collapsed menu */
+ 
   .navbar-collapse {
     text-align: center;
   }
@@ -62,14 +99,14 @@ footer a:hover {
   }
 }
 
-/* Footer */
+
 footer {
   background-color: #222;
   color: white;
-  text-align: left; /* default */
+  text-align: left; 
 }
 
-/* Center footer content on small screens */
+
 @media (max-width: 767.98px) {
   footer .container {
     text-align: center;
