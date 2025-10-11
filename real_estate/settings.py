@@ -19,11 +19,8 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = [
-    'realestate11.onrender.com',  # ✅ Replace with your actual Render URL
-    '127.0.0.1',
-    'localhost',
-]
+ALLOWED_HOSTS = ['realestate11-1.onrender.com', 'realestate11.onrender.com', '127.0.0.1', 'localhost']
+
 
 # -------------------------------------------------
 # APPLICATIONS
