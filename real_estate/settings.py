@@ -20,9 +20,15 @@ SECRET_KEY = os.environ.get(
 DEBUG = True
 
 ALLOWED_HOSTS = [
-   '*'
+    'realestate11.onrender.com',
+    'realestate11-1.onrender.com',
+    'realestate11-3.onrender.com',
+    '127.0.0.1',
+    'localhost',
 ]
-
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # -------------------------------------------------
 # APPLICATIONS
