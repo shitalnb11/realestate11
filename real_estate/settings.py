@@ -77,7 +77,8 @@ WSGI_APPLICATION = 'real_estate.wsgi.application'
 # -------------------------------------------------
 # DATABASE CONFIGURATION
 # -------------------------------------------------
-if os.environ.get('DATABASE_URL'):
+if os.environ.get('RENDER'):
+    # ✅ Render environment (production)
     DATABASES = {
         'default': dj_database_url.config(
             default=os.environ.get('DATABASE_URL'),
@@ -86,6 +87,7 @@ if os.environ.get('DATABASE_URL'):
         )
     }
 else:
+    # ✅ Local development (SQLite)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
