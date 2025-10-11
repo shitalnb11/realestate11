@@ -20,10 +20,7 @@ SECRET_KEY = os.environ.get(
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'realestate11-1.onrender.com',
-    'realestate11-3.onrender.com',  # 👈 add this new domain
-    '127.0.0.1',
-    'localhost'
+   '*'
 ]
 
 
