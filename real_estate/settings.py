@@ -17,7 +17,7 @@ SECRET_KEY = os.environ.get(
     'django-insecure-w#am=2u1-57&%ir#@cy^k8$)a%9u*id-(5&a*sbu0c8r##01p+'
 )
 
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+DEBUG = True
 
 ALLOWED_HOSTS = ['realestate11-1.onrender.com', 'realestate11.onrender.com', '127.0.0.1', 'localhost']
 
