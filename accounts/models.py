@@ -13,7 +13,7 @@ class UserProfile(models.Model):
 
 
 class ContactMessage(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=500)
     email = models.EmailField()
     phone = models.CharField(max_length=15, blank=True)
     message = models.TextField()
@@ -26,7 +26,7 @@ class ContactMessage(models.Model):
  
  
 class ContactMessage(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=500)
     email = models.EmailField()
     message = models.TextField()
  
