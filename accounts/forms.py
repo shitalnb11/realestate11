@@ -15,12 +15,10 @@ class RegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
-# ✅ Property Form
 class PropertyForm(forms.ModelForm):
     class Meta:
         model = Property
         fields = ['title', 'description', 'location', 'price', 'property_type', 'image']
-
 
 # ✅ Custom Password Reset Form
 class CustomPasswordResetForm(forms.Form):

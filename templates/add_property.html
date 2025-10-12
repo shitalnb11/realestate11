@@ -47,8 +47,9 @@
 <body>
     <div class="form-container">
         <h2>Add New Property</h2>
-       
-        <form method="POST">
+
+        <!-- ✅ enctype खूप महत्वाचं आहे -->
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
            
             {% if form.errors %}
@@ -62,6 +63,14 @@
                 {{ form.title }}
                 {% if form.title.errors %}
                     <div class="error">{{ form.title.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_description">Description:</label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <div class="error">{{ form.description.errors }}</div>
                 {% endif %}
             </div>
            
@@ -88,15 +97,22 @@
                     <div class="error">{{ form.property_type.errors }}</div>
                 {% endif %}
             </div>
+
+            <!-- ✅ New Image Upload Field -->
+            <div class="form-group">
+                <label for="id_image">Property Image:</label>
+                {{ form.image }}
+                {% if form.image.errors %}
+                    <div class="error">{{ form.image.errors }}</div>
+                {% endif %}
+            </div>
            
             <button type="submit" class="btn">Add Property</button>
         </form>
        
         <p style="margin-top: 20px;">
-    <a href="{% url 'properties' %}">← Back to Properties</a>
-</p>
-
+            <a href="{% url 'properties' %}">← Back to Properties</a>
+        </p>
     </div>
 </body>
 </html>
- 

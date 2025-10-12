@@ -1,6 +1,6 @@
 """
 Django settings for real_estate project.
-Render deployment configuration.
+Fully configured for Render deployment with Cloudinary.
 """
 
 import os
@@ -17,7 +17,7 @@ SECRET_KEY = os.environ.get(
     'django-insecure-w#am=2u1-57&%ir#@cy^k8$)a%9u*id-(5&a*sbu0c8r##01p+'
 )
 
-DEBUG = True
+DEBUG = True  # ✅ Set False in production
 
 ALLOWED_HOSTS = [
     'realestate11.onrender.com',
@@ -26,6 +26,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
 ]
+
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
@@ -40,9 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',  # your custom app
+    'accounts',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
+# -------------------------------------------------
+# MIDDLEWARE
+# -------------------------------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ for static files
@@ -56,10 +62,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'real_estate.urls'
 
+# -------------------------------------------------
+# TEMPLATES
+# -------------------------------------------------
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # global templates folder
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,10 +84,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'real_estate.wsgi.application'
 
 # -------------------------------------------------
-# DATABASE CONFIGURATION
+# DATABASE
 # -------------------------------------------------
 if os.environ.get('RENDER'):
-    # ✅ Render environment (production)
     DATABASES = {
         'default': dj_database_url.config(
             default=os.environ.get('DATABASE_URL'),
@@ -87,13 +95,13 @@ if os.environ.get('RENDER'):
         )
     }
 else:
-    # ✅ Local development (SQLite)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
 # -------------------------------------------------
 # PASSWORD VALIDATION
 # -------------------------------------------------
@@ -113,17 +121,24 @@ USE_I18N = True
 USE_TZ = True
 
 # -------------------------------------------------
-# STATIC & MEDIA FILES
+# STATIC FILES
 # -------------------------------------------------
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
-# Whitenoise storage for compressed static files
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# -------------------------------------------------
+# MEDIA FILES (Cloudinary)
+# -------------------------------------------------
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'your_cloud_name'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', 'your_api_key'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', 'your_api_secret'),
+}
 
 # -------------------------------------------------
 # AUTHENTICATION
@@ -144,6 +159,6 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS', 'your-app-password')
 DEFAULT_FROM_EMAIL = 'Real Estate <yourcompany@gmail.com>'
 
 # -------------------------------------------------
-# DEFAULT FIELD TYPE
+# DEFAULT FIELD
 # -------------------------------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
