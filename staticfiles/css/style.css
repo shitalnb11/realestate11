@@ -9,7 +9,17 @@ body {
     background: linear-gradient(to right, #e6c0a7 0%, #ecc8b0 100%);
     overflow-x: hidden;
 }
-
+.site-logo {
+  font-family: 'Poppins', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #ff7a00, #ffb347);
+  
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  display: inline-block;
+}
 
 .hero {
     position: relative;

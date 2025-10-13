@@ -45,6 +45,23 @@
         transform: translateY(-5px);
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
+    .logo h1 {
+  font-size: 70px;
+  font-weight: 800;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(90deg, #ff7a00, #ffb347);
+ 
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.logo span {
+  font-weight: 700;
+  background: linear-gradient(90deg, #ffb347, #ff7a00);
+  
+  -webkit-text-fill-color: transparent;
+}
  
     .card-img-container {
         position: relative;
@@ -213,7 +230,7 @@ html, body {
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
-  margin-bottom: 0 !important;  /* removes bottom gap */
+  margin-bottom: -24px !important;  /* removes bottom gap */
   padding: 60px 0 20px;
   box-sizing: border-box;
   overflow-x: hidden;
@@ -348,7 +365,7 @@ main {
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="{% url 'home' %}">
-        <img src="{% static 'img/COMPANY22.PNG' %}" alt="Delegent Properties" height="40">
+       <img src="{% static 'img/lo.png' %}" alt="Real Estate" height="50" />
       </a>
      
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -562,7 +579,9 @@ main {
     <div class="row">
       <!-- Column 1 -->
       <div class="col-md-4 mb-3">
-        <img src="{% static 'img/COMPANY22.PNG' %}" alt="Delegent Properties" height="40">
+      <div class="logo">
+    <h1>Real <span>Estate</span></h1>
+  </div>
         <p>Your trusted platform for buying, selling, and renting properties with ease.</p>
       </div>
 

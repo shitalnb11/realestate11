@@ -13,31 +13,36 @@ from django.http import HttpResponse
 # -----------------------------
 def register(request):
     if request.method == "POST":
-        full_name = request.POST.get("full_name")
-        email = request.POST.get("email")
-        phone = request.POST.get("phone")
-        password1 = request.POST.get("password1")
-        password2 = request.POST.get("password2")
+        # Clear old messages before validation
+        storage = messages.get_messages(request)
+        for _ in storage:
+            pass
 
-        # ✅ Validation
-        if not full_name or not email or not phone or not password1 or not password2:
+        full_name = request.POST.get("full_name", "").strip()
+        email = request.POST.get("email", "").strip()
+        phone = request.POST.get("phone", "").strip()
+        password1 = request.POST.get("password1", "")
+        password2 = request.POST.get("password2", "")
+
+        # ✅ Validation checks
+        if not all([full_name, email, phone, password1, password2]):
             messages.error(request, "⚠️ All fields are required.")
-            return render(request, "registration/register.html")
+            return redirect("register")
 
         if password1 != password2:
             messages.error(request, "⚠️ Passwords do not match.")
-            return render(request, "registration/register.html")
+            return redirect("register")
 
         if User.objects.filter(username=email).exists():
             messages.error(request, "⚠️ This email is already registered. Please login.")
-            return render(request, "registration/register.html")
+            return redirect("login")
 
+        # ✅ Create user and profile
         user = User.objects.create_user(
             username=email,
             email=email,
             password=password1
         )
-
         UserProfile.objects.create(
             user=user,
             full_name=full_name,
@@ -46,6 +51,11 @@ def register(request):
 
         messages.success(request, "✅ Registration successful! Please login.")
         return redirect("login")
+
+    # GET request (just show empty page without any validation)
+    storage = messages.get_messages(request)
+    for _ in storage:
+        pass
 
     return render(request, "registration/register.html")
 
