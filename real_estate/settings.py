@@ -131,13 +131,14 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # MEDIA FILES (Cloudinary)
 # -------------------------------------------------
 MEDIA_URL = '/media/'
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+}
+
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'your_cloud_name'),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', 'your_api_key'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', 'your_api_secret'),
-}
 
 # -------------------------------------------------
 # AUTHENTICATION
