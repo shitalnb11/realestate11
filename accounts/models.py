@@ -34,11 +34,10 @@ PROPERTY_TYPES = [
 class Property(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    location = models.CharField(max_length=255)  # ✅ added back
+    location = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=12, decimal_places=2)
-    property_type = models.CharField(max_length=50, choices=PROPERTY_TYPES)
+    property_type = models.CharField(max_length=50)
     image = CloudinaryField('image', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
         return self.title
