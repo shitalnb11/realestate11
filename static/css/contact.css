@@ -250,3 +250,35 @@ body, button, input {
     color: #acacac; /* subtle color */
 }
  
+.modal-content {
+  background-color: #1c1c1c !important;
+  color: white !important;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  
+}
+
+.modal-header {
+  border-bottom: 1px solid #444 !important;
+}
+
+.modal-body p {
+  color: rgb(200, 200, 200);
+}
+.dropdown-menu {
+  background-color: #1c1c1c !important;
+  border: none !important;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+  animation: fadeDown 0.2s ease-in-out;
+  border: 1px solid red;
+}
+
+.dropdown-item:hover {
+  background-color: #333 !important;
+  color: #FFD700 !important;
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

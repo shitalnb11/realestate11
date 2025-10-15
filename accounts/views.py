@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from .models import UserProfile, ContactMessage, Property
 from .forms import PropertyForm
 from django.http import HttpResponse
+from .models import Report 
+from datetime import datetime 
 
 
 # -----------------------------
@@ -155,3 +157,33 @@ def property_detail(request, property_id=None):
         property_obj = None
 
     return render(request, "property.html", {"property": property_obj})
+
+# -----------------------------
+# ADMIN DASHBOARD VIEW
+# -----------------------------
+
+
+@login_required(login_url="login")
+def admin_dashboard(request):
+    total_properties = Property.objects.count()
+    approved_properties = Property.objects.filter(is_approved=True).count()
+    reported_properties = Property.objects.filter(is_reported=True).count()
+    pending_properties = total_properties - (approved_properties + reported_properties)
+    total_users = User.objects.count()
+    total_messages = ContactMessage.objects.count()
+
+    context = {
+        "total_properties": total_properties,
+        "approved_properties": approved_properties,
+        "reported_properties": reported_properties,
+        "pending_properties": pending_properties,
+        "total_users": total_users,
+        "total_messages": total_messages,
+        "year": datetime.now().year
+    }
+    return render(request, "admin_dashboard.html", context)
+
+
+@login_required
+def profile(request):
+    return render(request, 'profile.html')
