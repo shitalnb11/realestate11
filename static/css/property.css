@@ -78,14 +78,15 @@ body {
 /* ===== Glass Card Style ===== */
 .glass-card {
   background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(15px);
-  border-radius: 18px;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
-  padding: 30px 35px;
-  margin-bottom: 35px;
-  border: 1px solid rgba(255,255,255,0.4);
-  position: relative;
-  overflow: hidden;
+ backdrop-filter: blur(15px);
+border-radius: 18px;
+box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+padding: 30px 35px;
+margin-bottom: 35px;
+border: 1px solid rgba(255, 255, 255, 0.4);
+position: relative;
+overflow: hidden;
+
 }
  
 /* Subtle glow border */

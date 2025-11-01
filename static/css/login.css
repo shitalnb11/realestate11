@@ -1,127 +1,12 @@
-
-
+/* === BASIC === */
 body {
   background: #f1f3f6;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-/* Force navbar full width */
- .navbar {
-  width: 100% !important;
-  left: 0;
-  right: 0;
   margin: 0;
-  padding: 0.5rem 1rem;
-  position: fixed;
-  top: 0;
-  z-index: 1030; 
- }
-
-
-
-.login-wrapper {
-  max-width: 950px;
-  width: 100%;
-  background: #fff;
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0,0,0,.1);
-  display: flex;
-  flex-wrap: wrap;
 }
-
-.login-left {
-  flex: 1 1 50%;
-  background: url("/static/img/Luxury-Real-Estate-Brands.jpg")
-             center/cover no-repeat;
-  min-height: 380px;
-  position: relative;
-}
-
-.left-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-}
-
-.left-content {
-  position: absolute;
-  bottom: 25px;
-  left: 25px;
-  right: 25px;
-  color: #fff;
-}
-
-.login-right {
-  flex: 1 1 50%;
-  padding: 3rem 2.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.login-right h3 {
-  font-weight: 700;
-  color: #0d1c4b;
-}
-
-.form-control {
-  border-radius: 2rem;
-  padding-left: 2.5rem;
-}
-
-.input-icon {
-  position: absolute;
-  top: 50%;
-  left: 15px;
-  transform: translateY(-50%);
-  color: #6c757d;
-}
-
-.eye-icon {
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #6c757d;
-}
-
-.btn-login {
-  border-radius: 2rem;
-  padding: .6rem 1.2rem;
-  font-weight: 500;
-  
-}
-/* .g_id_signin{
-  margin-top: 20px;
-} */
-
-.social-btn {
-  border-radius: 2rem;
-  font-size: 0.9rem;
-}
-
-.small-link {
-  font-size: 0.9rem;
-}
-
-@media (max-width: 768px) {
-  .login-left { flex: 1 1 100%; min-height: 200px; }
-  .login-right { flex: 1 1 100%; padding: 2rem 1.5rem; }
-}
-
-
-/* register */
-
-
 
 /* === MAIN WRAPPER === */
-.register-wrapper {
+.login-wrapper {
   max-width: 950px;
   width: 100%;
   background: #fff;
@@ -130,13 +15,15 @@ body {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-wrap: wrap;
-  margin: 40px auto;
+  margin: 100px auto 60px; /* same spacing as register */
 }
 
 /* === LEFT SIDE === */
-.register-left {
+.login-left {
   flex: 1 1 50%;
-  background: url("/static/img/r1.webp") center/cover no-repeat;
+  background: url("/static/img/Luxury-Real-Estate-Brands.jpg");
+  background-size: cover;
+  background-position: center;
   min-height: 380px;
   position: relative;
 }
@@ -166,7 +53,7 @@ body {
 }
 
 /* === RIGHT SIDE === */
-.register-right {
+.login-right {
   flex: 1 1 50%;
   padding: 3rem 2.5rem;
   display: flex;
@@ -174,16 +61,16 @@ body {
   justify-content: center;
 }
 
-.register-right h3 {
+.login-right h3 {
   font-weight: 700;
   color: #0d1c4b;
 }
 
-.register-right p {
+.login-right p {
   margin-bottom: 1.5rem;
 }
 
-/* === INPUT + ICON ALIGNMENT === */
+/* === INPUT ICONS === */
 .position-relative {
   position: relative;
 }
@@ -204,7 +91,7 @@ body {
 .eye-icon {
   right: 15px;
   cursor: pointer;
-  pointer-events: auto; /* only for password toggle */
+  pointer-events: auto;
 }
 
 /* === INPUT STYLING === */
@@ -213,111 +100,62 @@ body {
   padding-left: 2.5rem;
   padding-right: 2.5rem;
   height: 45px;
-  line-height: 45px;
   border: 1px solid #ced4da;
   transition: all 0.3s ease;
 }
 
 .form-control:focus {
-  border-color: #198754;
-  box-shadow: 0 0 0 0.15rem rgba(25, 135, 84, 0.15);
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.15);
 }
 
-/* === BUTTON STYLING === */
-.btn-register {
+/* === BUTTON === */
+.btn-login {
   border-radius: 2rem;
   padding: 0.6rem 1.2rem;
   font-weight: 500;
-  background-color: #198754;
+  background-color: #0d6efd;
   border: none;
   transition: 0.3s ease;
 }
 
-.btn-register:hover {
-  background-color: #157347;
+.btn-login:hover {
+  background-color: #0b5ed7;
 }
 
-/* === INVALID FEEDBACK === */
+/* === FEEDBACK === */
 .invalid-feedback {
   font-size: 13px;
   color: #dc3545;
   margin-top: 5px;
-  display: block;
-  text-align: left;
+  display: none;
 }
 
-/* Prevent layout jump when invalid message appears */
-.mb-3.position-relative {
-  margin-bottom: 1.8rem;
-}
-
-/* === FORM VALIDATION STATES === */
-.was-validated .form-control:invalid,
-.form-control.is-invalid {
-  border-color: #dc3545;
-  box-shadow: 0 0 0 0.15rem rgba(220, 53, 69, 0.1);
-}
-
-.was-validated .form-control:valid,
-.form-control.is-valid {
-  border-color: #198754;
-  box-shadow: 0 0 0 0.15rem rgba(25, 135, 84, 0.1);
-}
-
-/* === OPTIONAL SHAKE ANIMATION ON INVALID === */
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-4px); }
-  40%, 80% { transform: translateX(4px); }
-}
-
-.form-control.is-invalid {
-  animation: shake 0.2s ease-in-out;
-}
-
-/* === LINK STYLING === */
+/* === SMALL TEXT LINKS === */
 .small-link {
   font-size: 0.9rem;
-  margin-top: 10px;
-}
-
-.small-link a {
-  color: #0d6efd;
-  text-decoration: none;
-}
-
-.small-link a:hover {
-  text-decoration: underline;
-}
-
-/* === SUCCESS & ERROR MESSAGES === */
-.text-success {
-  font-weight: 500;
-}
-
-.text-danger {
-  font-weight: 500;
 }
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
-  .register-left {
+  .login-left {
     flex: 1 1 100%;
     min-height: 200px;
   }
-  .register-right {
+
+  .login-right {
     flex: 1 1 100%;
     padding: 2rem 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
-  .register-wrapper {
+  .login-wrapper {
     border-radius: 0;
     box-shadow: none;
   }
 
-  .register-right {
+  .login-right {
     padding: 1.8rem 1rem;
   }
 

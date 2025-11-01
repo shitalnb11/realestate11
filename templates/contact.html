@@ -1,192 +1,308 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us </title>
- 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
- <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/COMPANY22.PNG' %}">
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="{% static 'css/contact.css' %}">
-  <!-- <link rel="stylesheet" href="{% static 'css/nav.css' %}"> -->
-</head>
- 
-<body>
- 
-<!-- ✅ Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'home' %}">
-      <img src="{% static 'img/logo1.png' %}" alt="Real Estate" height="50" />
-    </a>
- 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
- 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'properties' %}">Properties</a></li>
-        <li class="nav-item "><a class="nav-link active" href="{% url 'contact' %}">Contact</a></li>
- 
-        {% if user.is_authenticated %}
-          <form action="{% url 'logout' %}" method="post" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-link nav-link" style="color:white; text-decoration:none;">Logout</button>
-          </form>
-        {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}">Login/Register</a>
-          </li>
-        {% endif %}
-      </ul>
- 
-      <!-- <p style="color:white; margin-top:15px; margin-left:20px; color:rgb(207,198,198);">
-        {% if user.is_authenticated %}
-          User: {{ user.username }}
-        {% else %}
-          User: Not logged in
-        {% endif %}
-      </p> -->
-    </div>
-  </div>
-</nav>
- 
-<!-- ✅ Contact Form Section -->
-<div class="background">
-  <div class="container">
-    <div class="screen">
-      <div class="screen-header">
-        <div class="screen-header-left">
-          <div class="screen-header-button close"></div>
-          <div class="screen-header-button maximize"></div>
-          <div class="screen-header-button minimize"></div>
-        </div>
-      </div>
- 
-      <div class="screen-body">
-        <div class="screen-body-item left">
-          <div class="app-title">
-            <span>CONTACT</span>
-            <span>US</span>
-          </div>
-          <div class="app-contact" style="font-size: 11px;">CONTACT INFO: +62 88 888 888 888</div>
-        </div>
- 
-        <div class="screen-body-item">
-          <form method="post" action="{% url 'contact' %}" onsubmit="return validateForm()">
-            {% csrf_token %}
- 
-            <div class="app-form-group">
-              <input type="text" name="name" id="name" class="app-form-control" placeholder="NAME" required
-                     pattern="^[A-Za-z\s]+$" title="Name should only contain letters and spaces.">
-            </div>
- 
-            <div class="app-form-group">
-              <input type="email" name="email" id="email" class="app-form-control" placeholder="EMAIL" required>
-            </div>
- 
-            <div class="app-form-group">
-              <input type="text" name="phone" id="phone" class="app-form-control" placeholder="CONTACT NO" required
-                     pattern="\d{10}" title="Phone number must be exactly 10 digits.">
-            </div>
- 
-            <div class="app-form-group message">
-              <textarea name="message" class="app-form-control" placeholder="MESSAGE" required></textarea>
-            </div>
- 
-            <div class="app-form-group buttons">
-              <button type="reset" class="app-form-button">CANCEL</button>
-              <button type="submit" class="app-form-button">SEND</button>
-            </div>
-          </form>
- 
-          {% if success %}
-            <p class="text-success mt-3">{{ success }}</p>
-          {% endif %}
- 
-          {% if error %}
-            <p class="text-danger mt-2">{{ error }}</p>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
- 
-<!-- ✅ Footer Section -->
-<footer class="footer bg-dark text-white pt-5 pb-3 mt-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4 mb-3">
-       <img src="{% static 'img/logo1.png' %}" alt="Real Estate" height="70" />
-        <p>Your trusted platform for buying, selling, and renting properties with ease.</p>
-      </div>
+{% block title %}Contact Us{% endblock %}
 
-      <div class="col-md-4 mb-3">
-        <h5 class="fw-bold">Quick Links</h5>
-        <ul class="list-unstyled">
-          <li><a href="{% url 'home' %}" class="footer-link">Home</a></li>
-          <li><a href="{% url 'properties' %}" class="footer-link">Properties</a></li>
-          <li><a href="{% url 'contact' %}" class="footer-link">Contact</a></li>
-          <li><a href="{% url 'login' %}" class="footer-link">Login</a></li>
-          <li><a href="{% url 'register' %}" class="footer-link">Register</a></li>
-        </ul>
-      </div>
+{% block content %}
 
-      <div class="col-md-4 mb-3">
-        <h5 class="fw-bold">Follow Us</h5>
-        <div class="social-icons">
-          <a href="https://www.facebook.com/"><i class="fab fa-facebook"></i></a>
-                            <a href="https://x.com/i/flow/signup?lang=en"><i class="fab fa-twitter"></i></a>
-                            <a href="https://www.instagram.com/accounts/login/?hl=en"><i class="fab fa-instagram"></i></a>
-                            <a href="https://api.linkedin.com/login"><i class="fab fa-linkedin"></i></a>
-        </div>
-      </div>
-    </div>
-    <hr class="bg-light">
-    <p class="text-center mb-0">Copyright © Kavya Infoweb Pvt Ltd</p>
-  </div>
-</footer>
-
- 
-<!-- ✅ JS Validation Script -->
-<script>
-function validateForm() {
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const phone = document.getElementById('phone').value.trim();
- 
-  const nameRegex = /^[A-Za-z\s]+$/;
-  if (!nameRegex.test(name)) {
-    alert("Name should only contain letters and spaces.");
-    return false;
-  }
- 
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-  if (!emailRegex.test(email)) {
-    alert("Email must be a valid Gmail address (e.g. example@gmail.com).");
-    return false;
-  }
- 
-  const phoneRegex = /^\d{10}$/;
-  if (!phoneRegex.test(phone)) {
-    alert("Phone number must be exactly 10 digits.");
-    return false;
-  }
- 
-  return true;
+<style>
+/* === CONTACT PAGE INLINE CSS === */
+.contact-section {
+  background: linear-gradient(135deg, #f3f7fa 0%, #e1f0ff 100%);
+  padding: 100px 0;
+  font-family: 'Poppins', sans-serif;
 }
+
+.contact-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  max-width: 1100px;
+  margin: auto;
+}
+
+.contact-info {
+  flex: 1 1 40%;
+   background: url("/static/img/pro.jpeg") center/cover no-repeat;
+  color: white;
+  padding: 50px 40px;
+}
+
+.contact-info h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.contact-info p {
+  font-size: 15px;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.contact-info ul {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-info ul li {
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+.contact-info i {
+  margin-right: 10px;
+  color: #ffd700;
+}
+
+.contact-form-box {
+  flex: 1 1 60%;
+  padding: 50px 40px;
+  background: #fff;
+}
+
+.contact-form-box h3 {
+  font-size: 22px;
+  color: #0d1c4b;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  transition: border 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+textarea {
+  height: 120px;
+  resize: none;
+}
+
+/* === BUTTONS === */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-cancel, .btn-send {
+  flex: 1;
+  margin: 0 8px;
+  padding: 10px 0;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.btn-cancel:hover {
+  background: #ddd;
+}
+
+.btn-send {
+  background: #007bff;
+  color: white;
+}
+
+.btn-send:hover {
+  background: #0056b3;
+}
+
+/* === THANK YOU BOX === */
+.thank-you-message {
+  text-align: center;
+  padding: 40px;
+  background: #f0fff4;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+.thank-you-message h2 {
+  color: green;
+  margin-bottom: 20px;
+}
+
+.homepage-btn {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.homepage-btn:hover {
+  background-color: #0056b3;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .contact-wrapper {
+    flex-direction: column;
+  }
+
+  .contact-info, .contact-form-box {         
+    flex: 1 1 100%;
+    padding: 30px 25px;
+  }
+
+  .contact-info {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+</style>
+
+<!-- ✅ Modern Contact Section -->
+<section class="contact-section">
+  <div class="container">    
+    <div class="contact-wrapper">
+      
+      <!-- LEFT SIDE -->
+      <div class="contact-info">
+        <h2>Get in Touch</h2>
+        <p>We’d love to hear from you! Whether you have a question, feedback, or need assistance, our team is ready to help.</p>
+        <ul>
+          <li><i class="bi bi-geo-alt"></i> 123 Business Street, Pune</li>
+          <li><i class="bi bi-telephone"></i> +91 98765 43210</li>
+          <li><i class="bi bi-envelope"></i> support@realestate.com</li>
+        </ul>
+      </div>    
+      <!-- RIGHT SIDE -->
+      <div class="contact-form-box">
+        <h3>Send Us a Message</h3>
+
+        <form method="post" action="{% url 'contact' %}">
+          {% csrf_token %}
+
+          <div class="form-group">
+            <input type="text" name="name" placeholder="Your Name" required pattern="^[A-Za-z\s]+$">
+          </div>
+
+          <div class="form-group">
+            <input type="email" name="email" placeholder="Your Email" required>
+          </div>
+
+          <div class="form-group">
+            <input type="text" name="phone" placeholder="Your Contact No" required pattern="\d{10}">
+          </div>
+
+          <div class="form-group">
+            <textarea name="message" placeholder="Your Message..." required></textarea>
+          </div>
+
+          <div class="form-buttons">
+            <button type="reset" class="btn-cancel">Cancel</button>
+            <button type="submit" class="btn-send">Send</button>
+          </div>
+        </form>
+
+        <div class="thank-you-message" style="display:none;">
+          <h2>✅ Thank you! Your response has been sent successfully.</h2>
+          <a href="/" class="homepage-btn">Go to Homepage</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form");
+  const nameInput = document.querySelector('input[name="name"]');
+  const emailInput = document.querySelector('input[name="email"]');
+  const contactInput = document.querySelector('input[name="phone"]');
+  const messageInput = document.querySelector('textarea[name="message"]');
+  const sendButton = document.querySelector('.btn-send');
+  const cancelButton = document.querySelector('.btn-cancel');
+  const thankYouBox = document.querySelector('.thank-you-message');
+
+  // ✅ Helper functions
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  }
+
+  function isValidPhone(phone) {
+    return /^\d{10,15}$/.test(phone.trim());
+  }
+
+  // ✅ SEND button
+  sendButton.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const phone = contactInput.value.trim();
+    const message = messageInput.value.trim();
+
+    if (!name) return alert("Please enter your name.");
+    if (!email) return alert("Please enter your email.");
+    if (!isValidEmail(email)) return alert("Please enter a valid email address.");
+    if (!phone) return alert("Please enter your contact number.");
+    if (!isValidPhone(phone)) return alert("Please enter a valid contact number (10 digits).");
+    if (!message) return alert("Please enter your message.");
+
+    // ✅ Use fetch() to submit form
+    fetch(form.action, {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams({
+        name,
+        email,
+        phone,
+        message
+      })
+    })
+    .then(response => {
+      if (response.ok) {
+        // Hide form, show thank-you box
+        form.style.display = "none";
+        thankYouBox.style.display = "block";
+        thankYouBox.style.opacity = "0";
+        setTimeout(() => { thankYouBox.style.opacity = "1"; }, 50); // fade in
+      } else {
+        alert("Something went wrong. Please try again later.");
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      alert("Network error. Please check your connection.");
+    });
+  });
+
+  // ✅ CANCEL button (resets form)
+  cancelButton.addEventListener("click", function (e) {
+    e.preventDefault(); // stop form submission
+    form.reset();       // clear all fields
+    alert("Form cleared successfully!");
+  });
+});
 </script>
+
  
-<!-- ✅ Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
- 
-</body>
-</html>
- 
+
+{% endblock %}

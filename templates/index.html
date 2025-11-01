@@ -1,295 +1,1089 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% block title %}Home - Real Estate{% endblock %}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Real Estate</title>
+{% block content %}
+<style>
+ /* Categories Section */
+.hp-categories {
+  background: #f9fafc;
+  padding: 80px 20px;
+  text-align: center;
+  overflow: hidden;
+}
 
-    <!-- Static CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/nav.css' %}" />
- <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/COMPANY22.PNG' %}">
-    <!-- Bootstrap & Fonts -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-</head>
+.hp-categories .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-<body>
-    <!-- ✅ Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-        <!-- <div class="container-fluid"> -->
-            <a class="navbar-brand" href="{% url 'home' %}">
-               <img src="{% static 'img/logo1.png' %}" alt="Real Estate" height="50" />
-            </a>
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+  animation: fadeDown 1s ease forwards;
+}
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'properties' %}">Properties</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
-                    <!-- <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login/Register</a></li> -->
-                    {% if user.is_authenticated %}
-  <form action="{% url 'logout' %}" method="post" style="display:inline;">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-link nav-link" style="color:white; text-decoration:none;">Logout</button>
-  </form>
-{% else %}
-  <li class="nav-item">
-      <a class="nav-link" href="{% url 'login' %}">Login/Register</a>
-  </li>
-{% endif %}
-                </ul>
-                <!-- <p style="color:white; margin-top:15px; margin-left:20px; color:rgb(207,198,198);">
-        {% if user.is_authenticated %}
-             User: {{ user.username }}
-        {% else %}
-             User: Not logged in
-        {% endif %}
-    </p> -->
+.section-subtitle {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 50px;
+  animation: fadeDown 1.2s ease forwards;
+}
 
-            </div>
-           
-        <!-- </div> -->
-    </nav>
+.category-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
 
-    <!-- ✅ Hero Section -->
-    <section class="hero">
-        <video autoplay muted loop class="hero-video">
-            <source src="{% static 'img/257795.mov' %}" type="video/mp4" />
-        </video>
-        <div class="hero-overlay"></div>
-        <div class="hp-hero-content">
-            <h1>Find Your Dream Home</h1>
-            <p>Discover properties, apartments, and land at the best prices</p>
-           
-        </div>
-    </section>
+.category-card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 40px 25px;
+  width: 320px;
+  transition: all 0.5s ease;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(60px);
+}
 
-   {% load static %}
+.category-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(135deg, #0077ff, #00c2ff);
+  z-index: 0;
+  transition: width 0.4s ease;
+}
+
+.category-card:hover::before {
+  width: 100%;
+}
+
+.category-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  color: #fff;
+  box-shadow: 0 15px 30px rgba(0, 119, 255, 0.3);
+}
+
+.category-card * {
+  position: relative;
+  z-index: 2;
+}
+
+.icon-box {
+  background: #e9f4ff;
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.4s ease;
+}
+
+.icon-box img {
+  width: 50px;
+  transition: transform 0.5s ease;
+}
+
+.category-card:hover .icon-box {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.category-card:hover img {
+  transform: scale(1.2) rotate(10deg);
+}
+
+.category-card h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #222;
+  transition: color 0.4s ease;
+}
+
+.category-card p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+  transition: color 0.4s ease;
+}
+
+.category-card:hover h3,
+.category-card:hover p {
+  color: #fff;
+}
+
+/* ✅ Fade-up Animation */
+.show {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* ✅ Keyframes */
+@keyframes fadeDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ✅ Responsive */
+@media (max-width: 992px) {
+  .category-card {
+    width: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .category-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .category-card {
+    width: 90%;
+    max-width: 400px;
+  }
+}
+
+/* ===== Amenities Section ===== */
+.amenities-section {
+  background: #fff;
+  padding: 50px 5%;
+  text-align: center;
+}
+/* ===== Section Heading ===== */
+.section-heading {
+  margin-bottom: 40px;
+}
+
+.section-heading h2 {
+  font-size: 42px;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.section-heading h2 span {
+  color: #1a1a1a;
+}
+
+.section-heading p {
+  font-size: 1rem;
+  color: #555;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+
+/* ===== Main Slider ===== */
+.main-slider {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.main-slider img.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.main-slider img.slide.active {
+  opacity: 1;
+}
+
+/* ===== Thumbnails ===== */
+.thumb-gallery {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.thumb-card {
+  position: relative;
+  width: 260px;
+  height: 160px;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.thumb-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.thumb-card span {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.thumb-card:hover img {
+  transform: scale(1.08);
+}
+
+.thumb-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 119, 255, 0.25);
+}
+
+/* ===== Active Thumbnail ===== */
+.thumb-card.active {
+  border: 3px solid #ffc107;
+  box-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
+}
+
+.thumb-card.active span {
+  background: rgba(255, 193, 7, 0.9);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 992px) {
+  .main-slider {
+    height: 400px;
+  }
+  .thumb-card {
+    width: 220px;
+    height: 140px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-slider {
+    height: 320px;
+  }
+  .thumb-gallery {
+    gap: 15px;
+  }
+  .thumb-card {
+    width: 90%;
+    max-width: 350px;
+  }
+}
+/* ===== Testimonials Section ===== */
+.testimonial-section {
+  background: linear-gradient(145deg, #8b5e3b, #c69c7b);
+  padding: 90px 5%;
+  text-align: center;
+  position: relative;
+}
+
+.testimonial-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ===== Title ===== */
+.section-title {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1px;
+  margin-bottom: 60px;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.section-title span {
+  color: #ffe29f;
+}
+
+/* ===== Testimonial Cards Layout ===== */
+.testimonial-cards {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  width: 32%;
+  padding: 30px 25px 40px;
+  color: #fff;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(255, 255, 255, 0.25);
+  border-color: #ffe29f;
+}
+
+/* ===== Image Styling ===== */
+.testimonial-image {
+  width: 100%;
+  height: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 25px;
+}
+
+.testimonial-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.testimonial-card:hover .testimonial-image img {
+  transform: scale(1.08);
+}
+
+/* ===== Name & Text ===== */
+.testimonial-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffe29f;
+  margin-bottom: 15px;
+}
+
+.testimonial-card p {
+  font-size: 0.98rem;
+  color: #f7f7f7;
+  line-height: 1.7;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 992px) {
+  .testimonial-card {
+    width: 48%;
+  }
+
+  .section-title {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .testimonial-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .testimonial-card {
+    width: 90%;
+  }
+
+  .testimonial-image {
+    height: 200px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+}
+/* ===== Categories Section ===== */
+.hp-categories {
+  background: #f9fafc;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.hp-categories .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Headings */
+.section-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 50px;
+}
+
+/* ===== Cards Grid ===== */
+.category-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+}
+
+/* ===== Card ===== */
+.category-card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  width: 260px;
+  min-height: 280px; /* ✅ ensures consistent height */
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* ✅ aligns text properly */
+  align-items: center;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0, 119, 255, 0.2);
+}
+
+/* ===== Icon Box ===== */
+.icon-box {
+  background: #e9f4ff;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.icon-box img {
+  width: 45px;
+  transition: transform 0.4s ease;
+}
+
+.category-card:hover .icon-box img {
+  transform: scale(1.1);
+}
+
+/* ===== Texts ===== */
+.category-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.category-card p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 992px) {
+  .category-card {
+    width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .category-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .category-card {
+    width: 90%;
+    max-width: 380px;
+  }
+}
+/* ===== About Us Section ===== */
+.about-us {
+  background: linear-gradient(180deg, #ffffff, #f9fafc);
+  padding: 90px 5%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-us .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ===== Title ===== */
+.section-title {
+  font-size: 42px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.section-title span {
+  color: #1a1a1a;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: #666;
+  max-width: 650px;
+  margin: 0 auto 60px;
+  line-height: 1.6;
+}
+
+/* ===== Cards Layout ===== */
+.about-us-cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+/* ===== About Card ===== */
+.about-card {
+  position: relative;
+  width: 360px;
+  height: 320px;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.6s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.about-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s ease;
+}
+
+/* Dark gradient overlay for readability */
+.about-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.7));
+  transition: all 0.6s ease;
+}
+
+/* ===== Content ===== */
+.about-content {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: #fff;
+  padding: 30px 20px;
+  text-align: center;
+  z-index: 2;
+  transition: transform 0.6s ease;
+}
+
+.about-content h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: rgb(37, 36, 36);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.about-content p {
+  font-size: 1rem;
+  color: rgb(37, 36, 36);
+  line-height: 1.6;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== Hover Effects ===== */
+.about-card:hover .about-bg {
+  transform: scale(1.1);
+}
+
+.about-card:hover .about-overlay {
+  background: linear-gradient(180deg, rgba(0, 119, 255, 0.3), rgba(0, 0, 0, 0.9));
+}
+
+.about-card:hover .about-content {
+  transform: translateY(-10px);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 992px) {
+  .about-card {
+    width: 45%;
+    height: 300px;
+  }
+
+  .section-title {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-us-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-card {
+    width: 90%;
+    max-width: 400px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+}
 
 
 
-<!-- ✅ Featured Properties -->
-{% load static %}
+</style>
 
-<section class="hp-carousel-section">
-  <h2>Featured Properties</h2>
-  <div class="carousel-container">
-
-    <button class="carousel-btn left" onclick="moveCarousel('left')">&#9664;</button>
-
-    <div class="carousel-wrapper">
-      <div id="carousel" class="carousel">
-
-        <div class="card">
-          <img src="{% static 'img/2.jpg' %}" alt="Modern Apartment" />
-          <div class="card-description">
-            <h4>Modern Apartment</h4>
-            <p>Pune, Maharashtra</p>
-            <p>₹ 80 Lakh</p>
-            <div class="rating">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
-          </div>
-        </div>
-
-        <div class="card">
-             <img src="{% static 'img/2.png' %}" alt="Modern Apartment" />
-          <!-- <img src="{% static 'img/bengluru.png' %}" alt="Luxury Villa" /> -->
-          <div class="card-description">
-            <h4>Luxury Villa</h4>
-            <p>Bangalore, Karnataka</p>
-            <p>₹ 2.5 Crore</p>
-            <div class="rating">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <img src="{% static 'img/hp.jpg' %}" alt="Apartment Interior" />
-          <div class="card-description">
-            <h4>Apartment Interior</h4>
-            <p>Mumbai, Maharashtra</p>
-            <p>₹ 1.2 Crore</p>
-            <div class="rating">&#9733;&#9733;&#9733;&#9734;&#9734;</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <img src="{% static 'img/Goa.png' %}" alt="Villa Interior" />
-          <div class="card-description">
-            <h4>Villa Interior</h4>
-            <p>Pune, Maharashtra</p>
-            <p>₹ 3 Crore</p>
-            <div class="rating">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
-          </div>
-        </div>
-
-        <div class="card">
-                <img src="https://cdn-icons-png.flaticon.com/512/1076/1076752.png" alt="Apartments Icon" width="50" />
-          <div class="card-description">
-            <h4>Land Plot</h4>
-            <p>Goa</p>
-            <p>₹ 1.5 Crore</p>
-            <div class="rating">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <button class="carousel-btn right" onclick="moveCarousel('right')">&#9654;</button>
-
+<!-- ✅ Hero Section -->
+<section class="hero">
+  <video autoplay muted loop class="hero-video">
+    <source src="{% static 'img/257795.mov' %}" type="video/mp4" />
+  </video>
+  <div class="hero-overlay"></div>
+  
+  <div class="hp-hero-content text-center text-white">
+    <h1>Find Your Dream Home</h1>
+    <p>Discover properties, apartments, and land at the best prices</p>
   </div>
 </section>
 
+<!-- 🏡 Featured Properties Section -->
+<section class="featured-section py-5">
+  <div class="container">
+    <div class="section-header text-center mb-4">
+      <h2 class="fw-bold">🏠 Featured Properties in Pune</h2> 
+      <p class="text-muted">Explore the best Flats, Villas, and Row Houses in Pune</p>
+    </div>
+
+    <div class="carousel-container position-relative">
+      <button class="carousel-btn left" onclick="moveCarousel('left')">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+
+      <div class="carousel-wrapper">
+        <div id="carousel" class="carousel">
+          <!-- JS will generate Pune property cards here -->
+        </div>    
+      </div>
+
+      <button class="carousel-btn right" onclick="moveCarousel('right')">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ✅ Categories Section with Animations -->
+<section class="hp-categories" id="categories">
+  <div class="container">
+    <h2 class="section-title">What We Provide</h2>
+    <p class="section-subtitle">Discover the perfect property options designed to suit your lifestyle.</p>
+
+    <div class="category-cards">
+      <!-- Apartments -->
+      <div class="category-card animate">
+        <div class="icon-box">
+          <img src="https://cdn-icons-png.flaticon.com/512/1076/1076752.png" alt="Apartments Icon" />
+        </div>
+        <h3>Apartments</h3>
+        <p>Modern and affordable apartments in prime locations, built for comfort and convenience.</p>
+      </div>
+
+      <!-- Villas -->
+      <div class="category-card animate">
+        <div class="icon-box">
+          <img src="https://cdn-icons-png.flaticon.com/512/69/69524.png" alt="Villas Icon" />
+        </div>
+        <h3>Villas</h3>
+        <p>Spacious and elegant villas with private gardens, pools, and exclusive amenities.</p>
+      </div>
+
+      <!-- Luxury Homes -->
+      <div class="category-card animate">
+        <div class="icon-box">
+          <img src="https://cdn-icons-png.flaticon.com/512/68/68939.png" alt="Luxury Homes" />
+        </div>
+        <h3>Luxury Homes</h3>
+        <p>Experience high-end living in luxurious homes that redefine modern lifestyle.</p>
+      </div>
+
+      <!-- Penthouse -->
+      <div class="category-card animate">
+        <div class="icon-box">
+          <img src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Penthouse" />
+        </div>
+        <h3>Penthouse</h3>
+        <p>Exclusive penthouses with panoramic views, private terraces, and luxury interiors.</p>
+      </div>
+
+      <!-- Row House -->
+      <div class="category-card animate">
+        <div class="icon-box">
+          <img src="https://cdn-icons-png.flaticon.com/512/2799/2799608.png" alt="Row House" />
+        </div>
+        <h3>Row House</h3>
+        <p>Charming row houses offering independence and community living in premium neighborhoods.</p>
+      </div>
+
+      <!-- 1BHK -->
+      <div class="category-card animate">
+        <div class="icon-box">
+          <img src="https://cdn-icons-png.flaticon.com/512/7545/7545478.png" alt="1BHK" />
+        </div>
+        <h3>1 BHK Homes</h3>
+        <p>Compact, cozy, and affordable homes perfect for individuals and young couples.</p>
+      </div>
+
+      <!-- 2BHK -->
+      <div class="category-card animate">
+        <div class="icon-box">
+          <img src="https://cdn-icons-png.flaticon.com/512/7545/7545479.png" alt="2BHK" />
+        </div>
+        <h3>2 BHK Homes</h3>
+        <p>Spacious 2-bedroom apartments ideal for small families with all modern comforts.</p>
+      </div>
+
+      <!-- 3BHK / 4BHK -->
+      <div class="category-card animate">
+        <div class="icon-box">
+          <img src="https://cdn-icons-png.flaticon.com/512/7545/7545481.png" alt="3BHK / 4BHK" />
+        </div>
+        <h3>3 & 4 BHK Homes</h3>
+        <p>Premium, large-sized homes designed for modern families seeking luxury and space.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ✅ Amenities Section -->
+<section class="amenities-section">
+  <div class="section-heading">
+    <h2>Project <span>Amenities</span></h2>
+    <p>Explore world-class amenities designed for your comfort, leisure, and lifestyle.</p>
+  </div>
+  <div class="main-slider" id="mainSlider">
+    <img src="/static/img/a3.jpg" alt="Amenity 1" class="slide active">
+    <img src="/static/img/a2.jpg" alt="Amenity 2" class="slide">
+    <img src="/static/img/a1.jpg" alt="Amenity 3" class="slide">
+  </div>
+
+  <div class="thumb-gallery">
+    <div class="thumb-card active" data-index="0">
+      <img src="/static/img/a3.jpg" alt="Swimming Pool" />
+      <span>Swimming Pool</span>
+    </div>
+
+    <div class="thumb-card" data-index="1">
+      <img src="/static/img/a2.jpg" alt="Club House" />
+      <span>Club House</span>
+    </div>
+
+    <div class="thumb-card" data-index="2">
+      <img src="/static/img/a1.jpg" alt="Multi Purpose Court" />
+      <span>Multi Purpose Court</span>
+    </div>
+  </div>
+</section>
+
+
  
+<!-- ✅ Testimonials Section -->
+<section class="testimonial-section">
+  <div class="container">
+    <h2 class="section-title">WHAT OUR <span>CLIENTS SAY</span></h2>
 
-    <!-- ✅ Categories -->
-    <section class="hp-categories">
-        <h2>What we Provide</h2>
-        <div class="category-cards">
-            <div class="category-card">
-                <img src="https://cdn-icons-png.flaticon.com/512/1076/1076752.png" alt="Apartments Icon" width="50" />
-                <p>Apartments</p>
-            </div>
-            <div class="category-card">
-                <img src="https://cdn-icons-png.flaticon.com/512/69/69524.png" alt="Villas Icon" width="50" />
-                <p>Villas</p>
-            </div>
-            <div class="category-card">
-                <img src="https://cdn-icons-png.flaticon.com/512/68/68939.png" alt="Plots Icon" width="50" />
-                <!-- <p>Plots</p>
-            </div>
-            <div class="category-card"> <img src="https://cdn-icons-png.flaticon.com/512/2910/2910768.png"
-                    alt="Luxury Homes Icon" width="50" /> -->
-                <p>Luxury Homes</p>
-            </div>
+    <div class="testimonial-cards">
+      <!-- Testimonial 1 -->
+      <div class="testimonial-card">
+        <div class="testimonial-image">
+          <img src="{% static 'img/cheerful-indian-businessman-smiling-closeup-portrait-jobs-career-campaign.jpg' %}" alt="Rajesh K.">
         </div>
-    </section>
-    
+        <h3>Rajesh K.</h3>
+        <p>“Amazing experience! Found my dream apartment quickly and the entire process was smooth and professional.”</p>
+      </div>
 
-    <!-- ✅ Testimonials -->
-    <section class="testimonials">
-        <h2>What Our Clients Say</h2>
-        <div class="testimonial-carousel">
-            <div class="testimonial-card">
-                <img src="/static/img/cheerful-indian-businessman-smiling-closeup-portrait-jobs-career-campaign.jpg"
-                    alt="Rajesh K." width="50" height="75" />
-                <p>"Amazing experience, found my dream apartment quickly!"</p>
-                <h4>— Rajesh K.</h4>
-            </div>
-            <div class="testimonial-card">
-                <img src="/static/img/young-smiling-.jpg"
-                    alt="Anjali S." width="50" height="75" />
-                <p>"Professional service, highly recommended!"</p>
-                <h4>— Anjali S.</h4>
-            </div>
-            <div class="testimonial-card">
-                <img src="/static/img/portrait-indian-.jpg" alt="Neha M." width="50" height="75" />
-                <p>"Great support throughout the process, truly grateful!"</p>
-                <h4>— Neha M.</h4>
-            </div>
+      <!-- Testimonial 2 -->
+      <div class="testimonial-card">
+        <div class="testimonial-image">
+          <img src="{% static 'img/young-smiling-.jpg' %}" alt="Anjali S.">
         </div>
-    </section>
-    
+        <h3>Anjali S.</h3>
+        <p>“Very professional and transparent service. They helped me find exactly what I was looking for.”</p>
+      </div>
 
-    <!-- ✅ About Us -->
-   <section class="about-us">
-        <h2>About Us</h2>
-        <div class="about-us-cards">
-            <!-- Card 1 -->
-            <div class="about-card" style="background-image: url('../static/img/vision.jpg')">
-                <div class="about-content">
-                    <img src="static/img/what_our_client_say.jpg" alt="Our Vision" />
-                    <h3>Our Vision</h3>
-                    <p>
-                        To redefine real estate experiences by providing unmatched service
-                        and innovative solutions.
-                    </p>
-                </div>
-            </div>
-            <!-- Card 2 -->
-            <div class="about-card" style="
-            background-image: url('https://agiindia.com/wp-content/uploads/2020/12/Construction_in_Toronto_May_2012-e1484217895318.jpg');
-          ">
-                <div class="about-content">
-                    <img src="/static/img/image.png" alt="Our Mission" />
-                    <h3>Our Mission</h3>
-                    <p>
-                        Connecting people with their dream properties with transparency,
-                        integrity, and passion.
-                    </p>
-                </div>
-            </div>
-            <!-- Card 3 -->
-            <div class="about-card" style="
-            background-image: url('https://www.shutterstock.com/image-photo/indian-asian-young-business-professionals-600nw-2474120445.jpg');
-          ">
-                <div class="about-content">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Our Team" />
-                    <h3>Our Team</h3>
-                    <p>
-                        A dynamic group of real estate professionals committed to your
-                        success and satisfaction.
-                    </p>
-                </div>
-            </div>
+      <!-- Testimonial 3 -->
+      <div class="testimonial-card">
+        <div class="testimonial-image">
+          <img src="{% static 'img/portrait-indian-.jpg' %}" alt="Neha M.">
         </div>
-    </section>
-    
+        <h3>Neha M.</h3>
+        <p>“Exceptional support throughout! Truly grateful for the guidance and excellent customer service.”</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- ✅ Footer -->
-   <footer class="footer bg-dark text-white pt-5 pb-3 mt-5">
-        <div class="footer-wrapper">
-            <div class="container">
-                <div class="row">
-                    <!-- Column 1 -->
-                    <div class="col-md-4 mb-3">
-                        <img src="{% static 'img/logo1.png' %}" alt="Real Estate" height="70" />
-                        <!-- <img src="/static/img/logo.png" alt="Delegent Properties" height="70" /> -->
-                        <p>
-                            Your trusted platform for buying, selling, and renting
-                            properties with ease.
-                        </p>
-                    </div>
 
-                    <!-- Column 2: Quick Links -->
-                    <div class="col-md-4 mb-3">
-                        <h5 class="fw-bold">Quick Links</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="{% url 'home' %}" class="footer-link">Home</a></li>
-    <li><a href="{% url 'properties' %}" class="footer-link">Properties</a></li>
-    <li><a href="{% url 'contact' %}" class="footer-link">Contact</a></li>
-    <li><a href="{% url 'login' %}" class="footer-link">Login</a></li>
-    <li><a href="{% url 'register' %}" class="footer-link">Register</a></li>
-                        </ul>
-                    </div>
+<!-- ✅ About Us Section -->
+<section class="about-us">
+  <div class="container">
+    <h2 class="section-title">About <span>Us</span></h2>
+    <p class="section-subtitle">
+      Building trust, delivering quality, and redefining real estate <br>experiences with passion and innovation.
+    </p>
 
-                    <!-- Column 3: Social -->
-                    <div class="col-md-4 mb-3">
-                        <h5 class="fw-bold">Follow Us</h5>
-                        <div class="social-icons">
-                            <a href="https://www.facebook.com/"><i class="fab fa-facebook"></i></a>
-                            <a href="https://x.com/i/flow/signup?lang=en"><i class="fab fa-twitter"></i></a>
-                            <a href="https://www.instagram.com/accounts/login/?hl=en"><i class="fab fa-instagram"></i></a>
-                            <a href="https://api.linkedin.com/login"><i class="fab fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <hr class="bg-light" />
-                <p class="text-center mb-0">Copyright @ Kavya Infoweb Pvt Ltd</p>
-            </div>
+    <div class="about-us-cards">
+      <!-- Vision -->
+      <div class="about-card">
+        <div class="about-bg" style="background-image: url('{% static 'img/vision.jpg' %}')"></div>
+        <div class="about-overlay"></div>
+        <div class="about-content">
+          <h3>Our Vision</h3>
+          <p>To redefine real estate experiences by providing unmatched service and innovative solutions.</p>
         </div>
-    </footer>
+      </div>
+
+      <!-- Mission -->
+      <div class="about-card">
+        <div class="about-bg"
+          style="background-image: url('https://agiindia.com/wp-content/uploads/2020/12/Construction_in_Toronto_May_2012-e1484217895318.jpg')">
+        </div>
+        <div class="about-overlay"></div>
+        <div class="about-content">
+          <h3>Our Mission</h3>
+          <p>Connecting people with their dream properties with transparency, integrity, and passion.</p>
+        </div>
+      </div>
+
+      <!-- Team -->
+      <div class="about-card">
+        <div class="about-bg"
+          style="background-image: url('https://www.shutterstock.com/image-photo/indian-asian-young-business-professionals-600nw-2474120445.jpg')">
+        </div>
+        <div class="about-overlay"></div>
+        <div class="about-content">
+          <h3>Our Team</h3>
+          <p>A dynamic group of real estate professionals committed to your success and satisfaction.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Fade-up animation on scroll
+  const cards = document.querySelectorAll(".animate");
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show");
+      }
+    });
+  }, { threshold: 0.2 });
+
+  cards.forEach(card => observer.observe(card));
+</script>
+<script>
+  const slides = document.querySelectorAll(".slide");
+  const thumbs = document.querySelectorAll(".thumb-card");
+  let current = 0;
+
+  function changeSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.remove("active");
+      thumbs[i].classList.remove("active");
+    });
+    slides[index].classList.add("active");
+    thumbs[index].classList.add("active");
+  }
+
+  // Auto change every 4 seconds
+  setInterval(() => {
+    current = (current + 1) % slides.length;
+    changeSlide(current);
+  }, 4000);
+
+  // Manual click
+  thumbs.forEach((thumb, index) => {
+    thumb.addEventListener("click", () => {
+      current = index;
+      changeSlide(current);
+    });
+  });
+</script>
+<script>
+  const cards1 = document.querySelectorAll(".animate");
+
+  const observer1 = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show");
+      }
+    });
+  }, { threshold: 0.2 });
+
+  cards.forEach(card => observer.observe(card));
+</script>       
+  
+<script>
+  const aboutCards = document.querySelectorAll(".about-card");
+
+  const observer11 = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  aboutCards.forEach(card => observer.observe(card));
 
 
-    <!-- JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'js/nav.js' %}"></script>
-    <script src="{% static 'js/script.js' %}"></script>
-</body>
-</html>
+
+
+  
+const puneProperties = [
+  {
+    id: 1,
+    name: "Hadapsar Heights",
+    type: "Flat",
+    image: "/static/img/hp.jpg",
+    location: "Hadapsar, Pune",
+    price: "₹ 85 Lakh",
+    rate: "4.9",
+    description: "Modern 2BHK flat with premium interiors and garden view."
+  },
+  {
+    id: 2,
+    name: "Baner Bliss Villa",
+    type: "Villa",
+    image: "/static/img/Goa.png",
+    location: "Baner, Pune",
+    price: "₹ 3.1 Crore",
+    rate: "4.8",
+    description: "Luxurious villa in Baner with private pool and parking."
+  },
+  {
+    id: 3,
+    name: "Kothrud Row House",
+    type: "Row House",
+    image: "/static/img/flat2.png",
+    location: "Kothrud, Pune",
+    price: "₹ 1.5 Crore",
+    rate: "4.7",
+    description: "Spacious 3BHK row house with beautiful terrace and balcony."
+  },
+  {
+    id: 4,
+    name: "Hinjewadi Elite Homes",
+    type: "Flat",
+    image: "/static/img/Mumbai.png",
+    location: "Hinjewadi, Pune",
+    price: "₹ 95 Lakh",
+    rate: "4.6",
+    description: "Premium flats near IT park with modern amenities."
+  }
+];
+
+let scrollPosition = 0;
+
+function renderCarousel() {
+  const carousel = document.getElementById('carousel');
+  carousel.innerHTML = '';
+
+  puneProperties.forEach(property => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+
+    card.innerHTML = `
+      <img src="${property.image}" alt="${property.name}">
+      <div class="card-description">
+        <span class="property-type">${property.type}</span>
+        <h4>${property.name}</h4>
+        <p><i class="fas fa-map-marker-alt"></i> ${property.location}</p>
+        <p class="price">${property.price}</p>
+        <div class="rating">⭐ ${property.rate}</div>
+        <p>${property.description}</p>
+        <a href="/property/" class="view-btn">View Details</a>
+      </div>
+    `;      
+    carousel.appendChild(card);
+  });
+}
+
+function moveCarousel(direction) {
+  const carousel = document.getElementById('carousel');
+  const cardWidth = 320;
+  const visibleWidth = carousel.parentElement.offsetWidth;
+  const totalWidth = carousel.scrollWidth;
+
+  if (direction === 'left') {
+    scrollPosition = Math.max(scrollPosition - cardWidth, 0);
+  } else {
+    scrollPosition = Math.min(scrollPosition + cardWidth, totalWidth - visibleWidth);
+  }
+
+  carousel.style.transform = `translateX(-${scrollPosition}px)`;
+}
+
+document.addEventListener("DOMContentLoaded", renderCarousel);
+     
+
+</script>
+
+<style>
+  .about-card {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease;
+  }
+
+  .about-card.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>         
+{% endblock %}                    
+ 

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Map</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f5f6fa; }
+    h2 { text-align: center; margin: 15px 0; color: #2c3e50; }
+    #map { height: 550px; width: 90%; margin: 0 auto; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+    #search-box { text-align: center; margin: 10px 0; }
+    input { padding: 8px; width: 250px; border-radius: 5px; border: 1px solid #ccc; }
+    button { padding: 8px 15px; border: none; border-radius: 5px; background: #3498db; color: white; cursor: pointer; }
+    button:hover { background: #2980b9; }
+  </style>
+</head>
+
+<body>
+  <h2>🏠 Explore Properties on Map</h2>
+
+  <div id="search-box">
+    <input type="text" id="searchInput" placeholder="Search nearby (e.g., hospital, school)">
+    <button onclick="searchNearby()">Search</button>
+  </div>
+
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <script>
+    // Initialize map centered on India
+    const map = L.map('map').setView([20.5937, 78.9629], 5);
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Load properties from Django context
+    const properties = JSON.parse('{{ properties|safe|escapejs }}');
+
+    // Add property markers
+    properties.forEach(p => {
+      if (p.latitude && p.longitude) {
+        const marker = L.marker([p.latitude, p.longitude]).addTo(map);
+        marker.bindPopup(`
+          <b>${p.title}</b><br>
+          ${p.location}, ${p.city || ''}<br>
+          💰 Price: ₹${p.price}<br>
+          🛏 ${p.bedrooms} | 🛁 ${p.bathrooms}<br>
+          <img src="${p.image?.url || ''}" width="120" style="border-radius:5px; margin-top:5px;">
+        `);
+      }
+    });
+
+    // ✅ Nearby Search Function (Fully Working)
+    function searchNearby() {
+      const query = document.getElementById('searchInput').value.trim();
+      if (!query) return alert("Please enter a place to search!");
+
+      const center = map.getCenter();
+      const north = center.lat + 0.05;
+      const south = center.lat - 0.05;
+      const east = center.lng + 0.05;
+      const west = center.lng - 0.05;
+
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=20`;
+
+      fetch(url, {
+        headers: {
+          'Accept-Language': 'en',
+          'User-Agent': 'RealEstateMap/1.0 (your-email@example.com)' // required
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.length === 0) {
+          alert(`No nearby ${query} found.`);
+          return;
+        }
+
+        data.forEach(item => {
+          const lat = parseFloat(item.lat);
+          const lon = parseFloat(item.lon);
+
+          L.marker([lat, lon], {
+            icon: L.icon({
+              iconUrl: 'https://cdn-icons-png.flaticon.com/512/535/535239.png',
+              iconSize: [25, 25],
+            })
+          })
+          .addTo(map)
+          .bindPopup(`<b>${item.display_name}</b>`);
+        });
+
+        // Zoom to first result
+        const first = data[0];
+        map.setView([first.lat, first.lon], 14);
+      })
+      .catch(err => {
+        console.error("Nearby search error:", err);
+        alert("Error fetching nearby places.");
+      });
+    }
+  </script>
+</body>
+</html>
